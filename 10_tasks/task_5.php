@@ -1,34 +1,7 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-
-$content = '';
-
-$array=[['src'=>'img/demo/authors/sunny.png', 'alt'=>'Sunny A.','name'=>'Sunny A. (UI/UX Expert)','occupation'=>'Lead Author','link_twit'=>'https://twitter.com/@myplaneticket', 'nik'=>'@myplaneticket', 'link'=>'https://wrapbootstrap.com/user/myorange','title'=>'Contact Sunny'],
-['src'=>'img/demo/authors/josh.png', 'alt'=>'Jos K.','name'=>'Jos K. (ASP.NET Developer)','occupation'=>'Partner &amp; Contributor','link_twit'=>'https://twitter.com/@atlantez', 'nik'=>'@atlantez', 'link'=>'https://wrapbootstrap.com/user/Walapa','title'=>'Contact Jos'],
-['src'=>'img/demo/authors/jovanni.png', 'alt'=>'Jovanni Lo','name'=>'Jovanni L. (PHP Developer)','occupation'=>'Lead Author','link_twit'=>'https://twitter.com/@lodev09', 'nik'=>'@lodev09', 'link'=>'https://wrapbootstrap.com/user/lodev09','title'=>'Contact Jovanni'],
-['src'=>'img/demo/authors/roberto.png', 'alt'=>'Roberto R.','name'=>'Roberto R. (Rails Developer)','occupation'=>'Partner &amp; Contributor','link_twit'=>'https://twitter.com/@sildur', 'nik'=>'@sildur', 'link'=>'https://wrapbootstrap.com/user/sildur','title'=>'Contact Roberto']];
-    
-    foreach($array as $key=>$elem)
-    {
-        $content .='<div class="rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">';
-        $content .='<img src="'.$elem['src'].'" alt="'.$elem['alt'].'" class="img-thumbnail img-responsive rounded-circle" style="width:5rem; height: 5rem;">';
-        $content .='<div class="ml-2 mr-3">';
-        $content .='<h5 class="m-0">';
-        $content .=$elem['name'];
-        $content .='<small class="m-0 fw-300">';
-        $content .=$elem['occupation'];
-        $content .='</small>';
-        $content .='</h5>';
-        $content .='<a href="'.$elem['link_twit'].'" class="text-info fs-sm" target="_blank">'.$elem['nik'].'</a> -';
-        $content .='<a href="'.$elem['link'].'" class="text-info fs-sm" target="_blank" title="'.$elem['title'].'"><i class="fal fa-envelope"></i></a>';
-        $content .='</div>';
-        $content .='</div>';
-    }
-
-    
-
-    ?>     
+?>     
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -64,10 +37,28 @@ $array=[['src'=>'img/demo/authors/sunny.png', 'alt'=>'Sunny A.','name'=>'Sunny A
                     <div class="panel-container show">
                         <div class="panel-content">
                            <div class="d-flex flex-wrap demo demo-h-spacing mt-3 mb-3">
-                            
-                            
-                            
-                            <?= $content;?>
+                        <?php $data=[ 
+                                    ['img'=>'img/demo/authors/sunny.png', 'alt'=>'Sunny A.','name'=>'Sunny A. (UI/UX Expert)','occupation'=>'Lead Author','link_twit'=>'https://twitter.com/@myplaneticket', 'nik'=>'@myplaneticket', 'link'=>'https://wrapbootstrap.com/user/myorange','title'=>'Contact Sunny'],
+                                    ['img'=>'img/demo/authors/josh.png', 'alt'=>'Jos K.','name'=>'Jos K. (ASP.NET Developer)','occupation'=>'Partner &amp; Contributor','link_twit'=>'https://twitter.com/@atlantez', 'nik'=>'@atlantez', 'link'=>'https://wrapbootstrap.com/user/Walapa','title'=>'Contact Jos'],
+                                    ['img'=>'img/demo/authors/jovanni.png', 'alt'=>'Jovanni Lo','name'=>'Jovanni L. (PHP Developer)','occupation'=>'Lead Author','link_twit'=>'https://twitter.com/@lodev09', 'nik'=>'@lodev09', 'link'=>'https://wrapbootstrap.com/user/lodev09','title'=>'Contact Jovanni'],
+                                    ['img'=>'img/demo/authors/roberto.png', 'alt'=>'Roberto R.','name'=>'Roberto R. (Rails Developer)','occupation'=>'Partner &amp; Contributor','link_twit'=>'https://twitter.com/@sildur', 'nik'=>'@sildur', 'link'=>'https://wrapbootstrap.com/user/sildur','title'=>'Contact Roberto']
+                                    ];
+    
+                                foreach($data as $key=>$elem):?>
+                                    <div class="rounded-pill bg-white shadow-sm p-2 border-faded mr-3 d-flex flex-row align-items-center justify-content-center flex-shrink-0">
+                                    <img src="<?=$elem['img'];?>" alt="<?=$elem['alt'];?>" class="img-thumbnail img-responsive rounded-circle" style="width:5rem; height: 5rem;">
+                                    <div class="ml-2 mr-3">
+                                    <h5 class="m-0">
+                                    <?=$elem['name'];?>
+                                    <small class="m-0 fw-300">
+                                    <?=$elem['occupation'];?>
+                                    </small>
+                                    </h5>
+                                    <a href="<?=$elem['link_twit'];?>'" class="text-info fs-sm" target="_blank"><?=$elem['nik'];?>'</a> -
+                                    <a href="<?=$elem['link'];?>'" class="text-info fs-sm" target="_blank" title="<?=$elem['title']?>"><i class="fal fa-envelope"></i></a>
+                                    </div>
+                                    </div>
+                          <?php endforeach;?>                      
                         </div>
                         </div>
                     </div>
