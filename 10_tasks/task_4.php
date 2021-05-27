@@ -2,19 +2,21 @@
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
-$content = '';
-
-$array=[['value'=>'My Tasks', 'level'=>'130/500','style'=>'bg-fusion-400','width'=>'width: 65%;','aria'=>'65'],['value'=>'Transferend', 'level'=>'440 TV','style'=>'bg-success-500','width'=>'width: 34%;','aria'=>'34'],['value'=>'Bugs Squashed', 'level'=>'77%','style'=>'bg-info-400','width'=>'width: 77%;','aria'=>'77'],['value'=>'User Testing', 'level'=>'7 Days','style'=>'bg-primary-300','width'=>'width: 84%;','aria'=>'84']];
-    
-    foreach($array as $key=>$elem)
+$data=[
+['title'=>'My Tasks', 'value'=>'130/500','style'=>'bg-fusion-400', 'class_mt_2'=>'mt-2', 'class_progress'=>'mb-3','width_tags'=>'width: 65%;','valuenow'=>'65', 'valuemin'=>'0', 'valuemax'=>'100'],
+['title'=>'Transferend', 'value'=>'440 TV','style'=>'bg-success-500', 'class_mt_2'=>'', 'class_progress'=>'mb-3','width_tags'=>'width: 34%;','valuenow'=>'34', 'valuemin'=>'0', 'valuemax'=>'100'],
+['title'=>'Bugs Squashed', 'value'=>'77%','style'=>'bg-info-400', 'class_mt_2'=>'', 'class_progress'=>'mb-3','width_tags'=>'width: 77%;','valuenow'=>'77', 'valuemin'=>'0', 'valuemax'=>'100'],
+['title'=>'User Testing', 'value'=>'7 Days','style'=>'bg-primary-300', 'class_mt_2'=>'', 'class_progress'=>'mb-g','width_tags'=>'width: 84%;','valuenow'=>'84', 'valuemin'=>'0', 'valuemax'=>'100']];
+$content ='';
+    foreach($data as $elem)
     {
-        $content .='<div class="d-flex mt-2">';
-        $content .= $elem['value'];
-        $content .='<span class="d-inline-block ml-auto">'.$elem['level'].'</span>';
+        $content .= '<div class="d-flex '.$elem['class_mt_2'].'">';
+        $content .= $elem['title'];
+        $content .='<span class="d-inline-block ml-auto">'.$elem['value'].'</span>';
         $content .='</div>';
-        $content .='<div class="progress progress-sm mb-3">';
-        $content .='<div class="progress-bar '.$elem['style'].'" role="progressbar" style="'.$elem['width'].'" aria-valuenow="'.$elem['aria'].'" aria-valuemin="0" aria-valuemax="100"></div>';
-        $content .='</div>';
+        $content .='<div class="progress progress-sm '.$elem['class_progress'].'">';
+        $content .='<div class="progress-bar '.$elem['style'].'" role="progressbar" style="'.$elem['width_tags'].'" aria-valuenow="'.$elem['valuenow'].'" aria-valuemin="'.$elem['valuemin'].'" aria-valuemax="'.$elem['valuemax'].'"></div>'; 
+        $content .='</div>'; 
     }
     ?>     
 <!DOCTYPE html>
