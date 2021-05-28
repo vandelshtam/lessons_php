@@ -1,3 +1,17 @@
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+$pdo= new PDO("mysql:host=localhost:8889; dbname=lessons_php","root","root");
+
+if(isset($_POST['text']))
+{
+    $text=$_POST['text'];
+    $sql="INSERT INTO task_9 (text) VALUES (:text)";
+    $statement=$pdo->prepare($sql);
+    $statement->execute(['text' => $text]);
+    header("location: /php/lessons_php/10_tasks/task_9.php");
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,8 +33,9 @@
     </head>
     <body class="mod-bg-1 mod-nav-link ">
         <main id="js-page-content" role="main" class="page-content">
-            <div class="col-md-6" style="width:100rem;">
-                <div id="panel-1" class="panel" >
+
+            <div class="col-md-6">
+                <div id="panel-1" class="panel">
                     <div class="panel-hdr">
                         <h2>
                             Задание
@@ -32,25 +47,14 @@
                     </div>
                     <div class="panel-container show">
                         <div class="panel-content">
-                            <h5 class="frame-heading">
-                                Обычная таблица
-                            </h5>
-                            <div class="frame-wrap">
-                                <table class="table m-0" >
-                                    <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>First Name</th>
-                                            <th>Last Name</th>
-                                            <th>Username</th>
-                                            <th>Actions</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <?= $content;?>
-                                        
-                                    </tbody>
-                                </table>
+                            <div class="panel-content">
+                                <div class="form-group">
+                                     <form action="task_9.php" method="POST">
+                                         <label class="form-label" for="simpleinput"></label>
+                                         <input type="text" id="simpleinput" class="form-control" name="text">
+                                         <button class="btn btn-success mt-3" type="submit">Submit</button>
+                                     </form> 
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -69,3 +73,5 @@
         </script>
     </body>
 </html>
+    
+
