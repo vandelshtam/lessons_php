@@ -1,64 +1,42 @@
 <?php
 session_start();
-ini_set('display_errors', 1);
-error_reporting(E_ALL);
+/*
+if(isset($_SESSION['success'])):
+    $texts=$_SESSION['success'];
+    echo "<p class=\"$status\">$texts</p>";
+    unset($_SESSION['succes']);
+endif; 
+if(isset($_SESSION['danger'])):
+    $texts=$_SESSION['danger'];
+    echo "<p class=\"$status\">$texts</p>";
+    unset($_SESSION['danger']);
+endif; */     
+$text=$_POST['text'];
 
 $pdo= new PDO("mysql:host=localhost:8889; dbname=lessons_php","root","root");
-if(isset($_POST['text']))
-{
-        if($_POST['text']!='')
+
+$sql="SELECT * FROM  task_9 WHERE text=:text";
+$statement=$pdo->prepare($sql);
+$statement->execute(['text' => $text]);
+$data=$statement->fetch(PDO::FETCH_ASSOC);
+//var_dump($data);
+    if(!empty($data))
         {
-            $text=$_POST['text'];
-            $sql="SELECT * FROM  task_9 WHERE text=:text";
+            $message='Запись ужу существует';
+            $_SESSION['danger'] = $message;
+            header('location:/php/lessons_php/10_tasks/task_10_copy.php'); exit;                         
+        }
+        
+            $sql="INSERT INTO task_9 (text) VALUES (:text)";
             $statement=$pdo->prepare($sql);
             $statement->execute(['text' => $text]);
-            $data=$statement->fetch(PDO::FETCH_ASSOC);
-            //var_dump($data);
-            if($data==true)
-                {
-                    $_SESSION['message'] = [
-                                            'texts'=>'You should check in on some of those fields below.!!!',
-                                            'status'=>'alert-danger'
-                                            ];
-                }
-                else
-                {   
-                    $sql="INSERT INTO task_9 (text) VALUES (:text)";
-                    $statement=$pdo->prepare($sql);
-                    $statement->execute(['text' => $text]);
-                    $_SESSION['message'] =  [
-                                            'texts'=>"you have successfully dubbed the entry",
-                                            'status'=>'alert-success'
-                                            ];
-                    header('location:/php/lessons_php/10_tasks/task_10.php'); die(); 
-                } 
+            $message='Запись успешно добавлена';
+            $_SESSION['success'] = $message;
+            //header('location:/php/lessons_php/10_tasks/task_10_copy.php'); exit; 
+                
+                    
 
-        }
-
-        if($_POST['text']==''):
-        
-            $text=''; 
-            $_SESSION['message'] = [
-                                    'texts'=>'You have sent a blank form, please fill out the form',
-                                    'status'=>'alert-info'
-                                    ];   
-        endif;
-}
-else
-{
-    $text=''; 
-    $_SESSION['message'] = [
-                            'texts'=>'Please fill out the form',
-                            'status'=>'alert-success'
-                            ];   
-}
-
-if(isset($_SESSION['message'])):
-    $status=$_SESSION['message']['status'];
-    $texts=$_SESSION['message']['texts'];
-    //echo "<p class=\"$status\">$texts</p>";
-    unset($_SESSION['message']);
-endif;
+ 
 ?>      
 <!DOCTYPE html>
 <html lang="en">
@@ -96,10 +74,19 @@ endif;
                         <div class="panel-content">
                             <div class="panel-content">
                                 <div class="form-group">
-                                    <div class="alert <?= $status;?> fade show" role="alert">
-                                    <?= $texts;?>
+                                    <?php if(isset($_SESSION['danger'])):?>
+                                    <div class="alert alert-danger fade show" role="alert">
+                                    <?php echo $_SESSION['danger'];
+                                          unset($_SESSION['danger']);?>
                                     </div>
-                                        <form action="/php/lessons_php/10_tasks/task_10.php" method="POST">
+                                    <?php endif;?>
+                                    <?php if(isset($_SESSION['success'])):?>
+                                    <div class="alert alert-success fade show" role="alert">
+                                    <?php echo $_SESSION['success'];
+                                          unset($_SESSION['succes']);?>
+                                    </div>
+                                    <?php endif;?>
+                                        <form action="/php/lessons_php/10_tasks/task_10_copy.php" method="POST">
                                             <label class="form-label" for="simpleinput">you entered: <?=$text;?></label>
                                             <input type="text" id="simpleinput" class="form-control" name="text">
                                             <button class="btn btn-success mt-3" type="submit">Submit</button>
@@ -123,3 +110,5 @@ endif;
         </script>
     </body>
 </html>
+<?php
+
