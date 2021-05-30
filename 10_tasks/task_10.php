@@ -30,7 +30,6 @@ if(isset($_POST['text']))
                                             'texts'=>"you have successfully dubbed the entry",
                                             'status'=>'alert-success'
                                             ];
-                    //header('location:/php/lessons_php/10_tasks/task_10.php');
                 } 
 
         }
