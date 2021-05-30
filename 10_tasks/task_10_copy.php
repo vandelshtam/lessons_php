@@ -1,17 +1,9 @@
 <?php
 session_start();
-/*
-if(isset($_SESSION['success'])):
-    $texts=$_SESSION['success'];
-    echo "<p class=\"$status\">$texts</p>";
-    unset($_SESSION['succes']);
-endif; 
-if(isset($_SESSION['danger'])):
-    $texts=$_SESSION['danger'];
-    echo "<p class=\"$status\">$texts</p>";
-    unset($_SESSION['danger']);
-endif; */     
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 $text=$_POST['text'];
+//var_dump($_POST);die;
 
 $pdo= new PDO("mysql:host=localhost:8889; dbname=lessons_php","root","root");
 
@@ -22,17 +14,21 @@ $data=$statement->fetch(PDO::FETCH_ASSOC);
 //var_dump($data);
     if(!empty($data))
         {
-            $message='Запись ужу существует';
+            $message='Запись ужe существует';
             $_SESSION['danger'] = $message;
+    
             header('location:/php/lessons_php/10_tasks/task_10_copy.php'); exit;                         
         }
-        
+        else
+        {
             $sql="INSERT INTO task_9 (text) VALUES (:text)";
             $statement=$pdo->prepare($sql);
             $statement->execute(['text' => $text]);
             $message='Запись успешно добавлена';
             $_SESSION['success'] = $message;
-            //header('location:/php/lessons_php/10_tasks/task_10_copy.php'); exit; 
+            header('location:/php/lessons_php/10_tasks/task_10_copy.php'); die(); 
+        }
+            
                 
                     
 
@@ -83,10 +79,10 @@ $data=$statement->fetch(PDO::FETCH_ASSOC);
                                     <?php if(isset($_SESSION['success'])):?>
                                     <div class="alert alert-success fade show" role="alert">
                                     <?php echo $_SESSION['success'];
-                                          unset($_SESSION['succes']);?>
+                                          unset($_SESSION['success']);?>
                                     </div>
                                     <?php endif;?>
-                                        <form action="/php/lessons_php/10_tasks/task_10_copy.php" method="POST">
+                                        <form action="" method="POST">
                                             <label class="form-label" for="simpleinput">you entered: <?=$text;?></label>
                                             <input type="text" id="simpleinput" class="form-control" name="text">
                                             <button class="btn btn-success mt-3" type="submit">Submit</button>

@@ -30,7 +30,7 @@ if(isset($_POST['text']))
                                             'texts'=>"you have successfully dubbed the entry",
                                             'status'=>'alert-success'
                                             ];
-                    header('location:/php/lessons_php/10_tasks/task_10.php'); die(); 
+                    //header('location:/php/lessons_php/10_tasks/task_10.php');
                 } 
 
         }
@@ -99,7 +99,7 @@ endif;
                                     <div class="alert <?= $status;?> fade show" role="alert">
                                     <?= $texts;?>
                                     </div>
-                                        <form action="/php/lessons_php/10_tasks/task_10.php" method="POST">
+                                        <form action="" method="POST">
                                             <label class="form-label" for="simpleinput">you entered: <?=$text;?></label>
                                             <input type="text" id="simpleinput" class="form-control" name="text">
                                             <button class="btn btn-success mt-3" type="submit">Submit</button>
