@@ -1,55 +1,35 @@
 <?php
 session_start();
-unset($_SESSION['message']);
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
-$pdo= new PDO("mysql:host=localhost:8889; dbname=lessons_php","root","root");
-//echo $_POST['email'];
-//echo $_POST['userpassword'];
-
-
-$message = 'заполните форму';
-set_flat_message($message);
+include_once 'info.php'; 
 
 if(isset($_POST['userpassword']) AND  isset($_POST['email']))
 {
     $email=$_POST['email'];
     get_user_by_email($email, $pdo);
-    $sql="SELECT * FROM  users WHERE email=:email";
-    $statement=$pdo->prepare($sql);
-    $statement->execute(['email' => $email]);
-    $data=$statement->fetch(PDO::FETCH_ASSOC);
-    //var_dump($data);
-    if(empty($data))
+    if(empty($GLOBALS['$data']))
     {
         $password = password_hash($_POST['userpassword'], PASSWORD_DEFAULT);
-        //$name=$email;
-        //$password=$email;
         add_user($email,$password, $pdo);
-        
-        //$name=$data['name'];
-        $message='You have successfully registered as!';
-        set_flat_message($message);
-        //display_flash_message();
-        //redirect_to();
-    }
+        $user_name=$GLOBALS['$data_add']['name'];
+        set_flat_message($user_name);
+        redirect_to();exit;
+    } 
     else
     {
-        $name='';
-        $message = 'Email is busy, choose another email';
-        set_flat_message($message);
-        //display_flash_message();
+        $user_name=$GLOBALS['$data']['name'];
+        set_flat_message($user_name);
     }
 }
-/*
+
 if(empty($_POST['userpassword']) AND  empty($_POST['email']))
 {
-    $name='';
-        $message = 'заполните форму';
-        set_flat_message($name, $message);
-        display_flash_message();
+    $user_name='';
+    $GLOBALS['$data']='null';
+    set_flat_message($user_name);
 }
-*/
+
 
 function get_user_by_email($email, $pdo)
 {
@@ -57,7 +37,7 @@ function get_user_by_email($email, $pdo)
     $statement=$pdo->prepare($sql);
     $statement->execute(['email' => $email]);
     $data=$statement->fetch(PDO::FETCH_ASSOC);
-    return $data;     
+    $GLOBALS['$data']=$data ;    
 }
 function add_user($email,$password, $pdo)
 {
@@ -66,35 +46,40 @@ function add_user($email,$password, $pdo)
     $statement=$pdo->prepare($sql);
     $statement->execute(['name'=>$name, 'email'=>$email, 'password'=>$password]);
 
-    $sql="SELECT * FROM  users WHERE email='$email'";
+    $sql="SELECT * FROM users WHERE email=:email";
     $statement=$pdo->prepare($sql);
-    $statement->execute();
-    $data=$statement->fetch(PDO::FETCH_ASSOC);
-    //echo $data['name'];
-    return $data['name'];
+    $statement->execute(['email' => $email]);
+    $data_add=$statement->fetch(PDO::FETCH_ASSOC);
+    $GLOBALS['$data_add']=$data_add ;    
 }
-
-function set_flat_message($message)
-{   
-    $_SESSION['auth']=true;
-    //$_SESSION['name']=$name;
-    $_SESSION['message'] = $message;  
-}
-function display_flash_message()
-{   
-    $x=$_SESSION['message'];
-    unset($_SESSION['message']);
-    //echo $_SESSION['name']; 
-    return $x;  
+function set_flat_message($user_name)
+{ 
+    if(isset($GLOBALS['$data_add'])){
+        $_SESSION['class']='alert-success'; 
+        $_SESSION['auth']=true;
+        $_SESSION['name']=$user_name;
+        $_SESSION['message'] = 'You have successfully registered as '.$user_name.'!';  
+    }
+    if(empty($GLOBALS['$data_add']))
+    {
+        $_SESSION['class']='alert-danger'; 
+        $_SESSION['auth']=null;
+        $_SESSION['name']=$user_name;
+        $_SESSION['message'] = 'Email with the name '.$user_name.' is already taken, please enter another email!';  
+    }
+    
+    if($GLOBALS['$data']=='null')
+    {
+        $_SESSION['class']='alert-info'; 
+        $_SESSION['auth']=null;
+        $_SESSION['name']=null;
+        $_SESSION['message'] = 'Пожалуйста заполните форму';  
+    }
+    
 }
 function redirect_to()
 {  
-    
-        header('Location:/php/lessons_php/registr_task_1/users.html');
-    
-        
-    
-    
+    header('Location:/php/lessons_php/registr_task_1/page_login.php');     
 }
 ?>
 <!DOCTYPE html>
@@ -158,10 +143,10 @@ function redirect_to()
                             </div>
                             <div class="col-xl-6 ml-auto mr-auto">
                                 <div class="card p-4 rounded-plus bg-faded">
-                                    <div class="alert alert-danger text-dark" role="alert">
+                                    <div class="alert <?= $_SESSION['class'];?> text-dark" role="alert">
                                         <strong>Уведомление!</strong> <?php display_flash_message();?>
                                     </div>
-                                    <form id="js-login" novalidate="" action="/php/lessons_php/registr_task_1/page_register.php" method="POST">
+                                    <form id="js-login" novalidate="" action="" method="POST">
                                         <div class="form-group">
                                             <label class="form-label" for="emailverify">Email</label>
                                             <input type="email" id="emailverify" class="form-control" placeholder="Эл. адрес" name="email" required>
