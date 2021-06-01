@@ -1,5 +1,86 @@
 <?php
-//session_start();
+session_start();
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+include_once 'info.php'; 
+
+if(isset($_POST['userpassword']) AND  isset($_POST['email']))
+{
+    $email=$_POST['email'];
+    get_user_by_email($email, $pdo);
+    if(empty($GLOBALS['$data']))
+    {
+        $password = password_hash($_POST['userpassword'], PASSWORD_DEFAULT);
+        add_user($email,$password, $pdo);
+        $user_name=$GLOBALS['$data_add']['name'];
+        set_flat_message($user_name);
+        redirect_to();exit;
+    } 
+    else
+    {
+        $user_name=$GLOBALS['$data']['name'];
+        set_flat_message($user_name);
+    }
+}
+
+if(empty($_POST['userpassword']) AND  empty($_POST['email']))
+{
+    $user_name='';
+    $GLOBALS['$data']='null';
+    set_flat_message($user_name);
+}
+
+
+function get_user_by_email($email, $pdo)
+{
+    $sql="SELECT * FROM  users WHERE email=:email";
+    $statement=$pdo->prepare($sql);
+    $statement->execute(['email' => $email]);
+    $data=$statement->fetch(PDO::FETCH_ASSOC);
+    $GLOBALS['$data']=$data ;    
+}
+function add_user($email,$password, $pdo)
+{
+    $name=$email;
+    $sql="INSERT INTO users (name, email, password) VALUES (:name, :email, :password)";
+    $statement=$pdo->prepare($sql);
+    $statement->execute(['name'=>$name, 'email'=>$email, 'password'=>$password]);
+
+    $sql="SELECT * FROM users WHERE email=:email";
+    $statement=$pdo->prepare($sql);
+    $statement->execute(['email' => $email]);
+    $data_add=$statement->fetch(PDO::FETCH_ASSOC);
+    $GLOBALS['$data_add']=$data_add ;    
+}
+function set_flat_message($user_name)
+{ 
+    if(isset($GLOBALS['$data_add'])){
+        $_SESSION['class']='alert-success'; 
+        $_SESSION['auth']=true;
+        $_SESSION['name']=$user_name;
+        $_SESSION['message'] = 'You have successfully registered as '.$user_name.'!';  
+    }
+    if(empty($GLOBALS['$data_add']))
+    {
+        $_SESSION['class']='alert-danger'; 
+        $_SESSION['auth']=null;
+        $_SESSION['name']=$user_name;
+        $_SESSION['message'] = 'Email with the name '.$user_name.' is already taken, please enter another email!';  
+    }
+    
+    if($GLOBALS['$data']=='null')
+    {
+        $_SESSION['class']='alert-info'; 
+        $_SESSION['auth']=null;
+        $_SESSION['name']=null;
+        $_SESSION['message'] = 'Пожалуйста заполните форму';  
+    }
+    
+}
+function redirect_to()
+{  
+    header('Location:/php/lessons_php/registr_task_1/page_login.php');     
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -62,8 +143,8 @@
                             </div>
                             <div class="col-xl-6 ml-auto mr-auto">
                                 <div class="card p-4 rounded-plus bg-faded">
-                                    <div class="alert <?php display_flash_message('class');?> text-dark" role="alert">
-                                        <strong>Уведомление!</strong> <?php display_flash_message('message');?>
+                                    <div class="alert <?= $_SESSION['class'];?> text-dark" role="alert">
+                                        <strong>Уведомление!</strong> <?php display_flash_message();?>
                                     </div>
                                     <form id="js-login" novalidate="" action="" method="POST">
                                         <div class="form-group">

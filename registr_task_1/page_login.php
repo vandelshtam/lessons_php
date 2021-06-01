@@ -1,6 +1,6 @@
 <?php
 session_start();
-include_once 'info.php'; 
+require 'info.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -37,8 +37,8 @@ include_once 'info.php';
             </a>
         </div>
         <div class="card p-4 border-top-left-radius-0 border-top-right-radius-0">
-            <div class="alert alert-success">
-                <?php display_flash_message();?>
+            <div class="alert <?php display_flash_message('class');?>">
+                <?php display_flash_message('message');?>
             </div>
             <form action="">
                 <div class="form-group">

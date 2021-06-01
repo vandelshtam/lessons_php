@@ -1,10 +1,10 @@
 <?php 
-$pdo= new PDO("mysql:host=localhost:8889; dbname=lessons_php","root","root"); 
-function display_flash_message()
+
+function display_flash_message($sess)
 { 
-    if(isset($_SESSION['message']))
+    if(isset($_SESSION[$sess]))
     {  
-        echo $_SESSION['message'];
-        unset($_SESSION['message']);
+        echo $_SESSION[$sess];
+        unset($_SESSION[$sess]);
     }
 }
