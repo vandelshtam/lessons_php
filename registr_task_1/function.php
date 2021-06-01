@@ -19,15 +19,23 @@ function add_user($email,$password, $pdo)
     $statement=$pdo->prepare($sql);
     $statement->execute(['email' => $email]);
     $user_add=$statement->fetch(PDO::FETCH_ASSOC);
+    $statement=$pdo->lastInsertId($sql);
     return $user_add;
 }
-function set_flash_message($class, $auth, $message)
+function set_flash_message($session)
 { 
-    
-        $_SESSION['class']=$class; 
-        $_SESSION['auth']=$auth;
-        $_SESSION['message'] = $message;  
-    
+    if($session=='danger')
+    {
+        $_SESSION['class']='alert-danger'; 
+        $_SESSION['auth']=null;
+        $_SESSION['message'] = 'This address is already taken, please try another!';  
+    }
+    if($session=='success')
+    {
+        $_SESSION['class']='alert-success'; 
+        $_SESSION['auth']=true;
+        $_SESSION['message'] = 'You have successfully registered!';  
+    } 
 }
 function redirect_to($file)
 {  

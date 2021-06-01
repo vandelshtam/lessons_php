@@ -13,20 +13,14 @@ $user = get_user_by_email($email, $pdo);
 
 if(!empty($user))
 {
-    $message='This address is already taken, please try another!';
-    $auth=null;
-    $class='alert-danger';
-    set_flash_message($class, $auth, $message);
+    set_flash_message('danger');
     redirect_to($file=false);die();   
 }
 else
 {
     $password = password_hash($_POST['userpassword'], PASSWORD_DEFAULT);
     add_user($email,$password, $pdo);
-    $message='You have successfully registered!';
-    $auth=true;
-    $class='alert-success';
-    set_flash_message($class, $auth, $message);
+    set_flash_message('success');
     redirect_to($file=true);die();
 }
 }
