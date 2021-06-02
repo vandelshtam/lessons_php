@@ -1,3 +1,8 @@
+<?php
+session_start();
+require 'info.php'; 
+require 'function.php'; 
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -34,8 +39,8 @@
         </nav>
 
         <main id="js-page-content" role="main" class="page-content mt-3">
-            <div class="alert alert-success">
-            <?php include 'pege_register.php'; echo $_SESSION['message'];?>
+            <div class="alert <?php display_flash_message('class');?>">
+            <?php display_flash_message('message') ;?>
             </div>
             <div class="subheader">
                 <h1 class="subheader-title">

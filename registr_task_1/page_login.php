@@ -1,6 +1,6 @@
 <?php
-session_start();
-require 'info.php'; 
+//session_start();
+//require 'info.php'; 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -40,14 +40,14 @@ require 'info.php';
             <div class="alert <?php display_flash_message('class');?>">
                 <?php display_flash_message('message');?>
             </div>
-            <form action="">
+            <form action="" method="POST">
                 <div class="form-group">
                     <label class="form-label" for="username">Email</label>
-                    <input type="email" id="username" class="form-control" placeholder="Эл. адрес" value="">
+                    <input type="email" id="username" class="form-control" placeholder="Эл. адрес" name="email" value="">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="password">Пароль</label>
-                    <input type="password" id="password" class="form-control" placeholder="" >
+                    <input type="password" id="password" class="form-control" name="password" placeholder="" >
                 </div>
                 <div class="form-group text-left">
                     <div class="custom-control custom-checkbox">

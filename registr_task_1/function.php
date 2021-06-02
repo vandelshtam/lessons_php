@@ -19,7 +19,7 @@ function add_user($email,$password, $pdo)
     $statement=$pdo->prepare($sql);
     $statement->execute(['email' => $email]);
     $user_add=$statement->fetch(PDO::FETCH_ASSOC);
-    $statement=$pdo->lastInsertId($sql);
+    $id=$pdo->lastInsertId($sql);var_dump($id);
     return $user_add;
 }
 function set_flash_message($session)
@@ -36,15 +36,77 @@ function set_flash_message($session)
         $_SESSION['auth']=true;
         $_SESSION['message'] = 'You have successfully registered!';  
     } 
+    if($session=='auth')
+    {
+        $_SESSION['class']='alert-success'; 
+        $_SESSION['auth']=true;
+        $_SESSION['message'] = 'You are successfully logged in as '.$_SESSION['login'].'!';
+
+    } 
+    if($session=='no_password')
+    {
+        $_SESSION['class']='alert-danger'; 
+        $_SESSION['auth']=null;
+        $_SESSION['message'] = 'Пароль не верный!';
+    } 
+    if($session=='no_login')
+    {
+        $_SESSION['class']='alert-danger'; 
+        $_SESSION['auth']=null;
+        $_SESSION['message'] = 'Такого логина нет!';
+    } 
+}
+function set_session_auth($id,$email)
+{ 
+    
+        $_SESSION['id']=$id; 
+        $_SESSION['login']=$email;
+        $_SESSION['auth']=true;
+    
 }
 function redirect_to($file)
 {  
-    if($file==true)
+    if($file=='login')
     {
-        header('Location:/php/lessons_php/registr_task_1/page_login.php');
+        header('Location:/php/lessons_php/registr_task_1/login.php');
+    }
+    if($file=='register')
+    {
+        header('Location:/php/lessons_php/registr_task_1/register.php');
+    } 
+    if($file=='users')
+    {
+        header('Location:/php/lessons_php/registr_task_1/users.php');
+    }        
+}
+function login($email,$password,$pdo)
+{
+    
+    $sql="SELECT * FROM  users WHERE email=:email";
+    $statement=$pdo->prepare($sql);
+    $statement->execute(['email' => $email]);
+    $user=$statement->fetchAll(PDO::FETCH_ASSOC);
+    var_dump($user);
+    
+    if(!empty($user))
+    {
+        $hash = $user[0]['password'];
+        if(password_verify($password, $hash))
+        {    
+            $id=$pdo->lastInsertId($sql);
+            set_session_auth($id,$email);
+            set_flash_message('auth');
+            return true;
+        }
+        else
+        {
+            set_flash_message('no_password'); 
+            return false;
+        }
     }
     else
     {
-        header('Location:/php/lessons_php/registr_task_1/register.php');
-    }        
+        set_flash_message('no_login'); 
+        return false;
+    }
 }
