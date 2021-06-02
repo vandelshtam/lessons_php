@@ -1,6 +1,5 @@
 <?php
 session_start();
-require 'info.php'; 
 require 'init.php';
 require 'function.php';
    

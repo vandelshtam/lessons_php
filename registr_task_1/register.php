@@ -1,6 +1,5 @@
 <?php
 session_start();
-require 'info.php';
 require 'init.php';
 require 'function.php';
 
@@ -13,14 +12,20 @@ $user = get_user_by_email($email, $pdo);
 
 if(!empty($user))
 {
-    set_flash_message('danger');
+    $message='This address is already taken, please try another!';
+    $auth=null;
+    $class='alert-danger';
+    set_flash_message($class,$auth,$message);
     redirect_to('register');die();   
 }
 else
 {
     $password = password_hash($_POST['userpassword'], PASSWORD_DEFAULT);
     add_user($email,$password, $pdo);
-    set_flash_message('success');
+    $message='You have successfully registered!';
+    $auth=true;
+    $class='alert-success';
+    set_flash_message($class,$auth,$message);
     redirect_to('login');die();
 }
 }

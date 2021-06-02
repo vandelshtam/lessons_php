@@ -8,6 +8,7 @@ function get_user_by_email($email, $pdo)
     //var_dump($user);
     return $user; 
 }
+
 function add_user($email,$password, $pdo)
 {
     
@@ -22,40 +23,15 @@ function add_user($email,$password, $pdo)
     $id=$pdo->lastInsertId($sql);var_dump($id);
     return $user_add;
 }
-function set_flash_message($session)
-{ 
-    if($session=='danger')
-    {
-        $_SESSION['class']='alert-danger'; 
-        $_SESSION['auth']=null;
-        $_SESSION['message'] = 'This address is already taken, please try another!';  
-    }
-    if($session=='success')
-    {
-        $_SESSION['class']='alert-success'; 
-        $_SESSION['auth']=true;
-        $_SESSION['message'] = 'You have successfully registered!';  
-    } 
-    if($session=='auth')
-    {
-        $_SESSION['class']='alert-success'; 
-        $_SESSION['auth']=true;
-        $_SESSION['message'] = 'You are successfully logged in as '.$_SESSION['login'].'!';
 
-    } 
-    if($session=='no_password')
-    {
-        $_SESSION['class']='alert-danger'; 
-        $_SESSION['auth']=null;
-        $_SESSION['message'] = 'Пароль не верный!';
-    } 
-    if($session=='no_login')
-    {
-        $_SESSION['class']='alert-danger'; 
-        $_SESSION['auth']=null;
-        $_SESSION['message'] = 'Такого логина нет!';
-    } 
+function set_flash_message($class,$auth,$message)
+{     
+    $_SESSION['class']=$class; 
+    $_SESSION['auth']=$auth;
+    $_SESSION['message'] = $message;  
 }
+
+
 function set_session_auth($id,$email)
 { 
     
@@ -79,6 +55,7 @@ function redirect_to($file)
         header('Location:/php/lessons_php/registr_task_1/users.php');
     }        
 }
+
 function login($email,$password,$pdo)
 {
     
@@ -94,19 +71,38 @@ function login($email,$password,$pdo)
         if(password_verify($password, $hash))
         {    
             $id=$pdo->lastInsertId($sql);
+            //$id=mysqli_insert_id($sql);
             set_session_auth($id,$email);
-            set_flash_message('auth');
+            $message='You are successfully logged in as '.$_SESSION['login'].'!';
+            $auth=true;
+            $class='alert-success';
+            set_flash_message($class,$auth,$message);
             return true;
         }
         else
         {
-            set_flash_message('no_password'); 
+            $message='Пароль не верный!';
+            $auth=null;
+            $class='alert-danger';
+            set_flash_message($class,$auth,$message);
             return false;
         }
     }
     else
     {
-        set_flash_message('no_login'); 
+        $message='Такого логина нет!';
+        $auth=null;
+        $class='alert-danger';
+        set_flash_message($class,$auth,$message);
         return false;
+    }
+}
+
+function display_flash_message($sess)
+{ 
+    if(isset($_SESSION[$sess]))
+    {  
+        echo $_SESSION[$sess];
+        unset($_SESSION[$sess]);
     }
 }
