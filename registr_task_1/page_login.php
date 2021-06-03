@@ -33,9 +33,16 @@
             </a>
         </div>
         <div class="card p-4 border-top-left-radius-0 border-top-right-radius-0">
-            <div class="alert <?php display_flash_message('class');?>">
-                <?php display_flash_message('message');?>
+            <?php if(isset($_SESSION['success'])):;?>
+            <div class="alert alert-success">
+                <?php display_flash_message('success');?>
             </div>
+            <?php endif;?>
+            <?php if(isset($_SESSION['danger'])):;?>
+            <div class="alert alert-danger">
+                <?php display_flash_message('danger');?>
+            </div>
+            <?php endif;?>
             <form action="" method="POST">
                 <div class="form-group">
                     <label class="form-label" for="username">Email</label>

@@ -59,9 +59,16 @@
                             </div>
                             <div class="col-xl-6 ml-auto mr-auto">
                                 <div class="card p-4 rounded-plus bg-faded">
-                                    <div class="alert <?php display_flash_message('class');?> text-dark" role="alert">
-                                        <strong>Уведомление!</strong> <?php display_flash_message('message');?>
+                                <?php if(isset($_SESSION['success'])):;?>
+                                    <div class="alert alert-success text-dark" role="alert">
+                                        <strong><?php display_flash_message('success');?></strong> 
                                     </div>
+                                    <?php endif;?>
+                                    <?php if(isset($_SESSION['danger'])):;?>
+                                    <div class="alert alert-danger text-dark" role="alert">
+                                        <strong><?php display_flash_message('danger');?></strong> 
+                                    </div>
+                                    <?php endif;?>    
                                     <form id="js-login" novalidate="" action="" method="POST">
                                         <div class="form-group">
                                             <label class="form-label" for="emailverify">Email</label>

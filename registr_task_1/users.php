@@ -38,9 +38,16 @@ require 'function.php';
         </nav>
 
         <main id="js-page-content" role="main" class="page-content mt-3">
-            <div class="alert <?php display_flash_message('class');?>">
-            <?php display_flash_message('message') ;?>
+            <?php if(isset($_SESSION['success'])):;?>
+            <div class="alert alert-success">
+            <?php display_flash_message('success') ;?>
             </div>
+            <?php endif;?>
+            <?php if(isset($_SESSION['danger'])):;?>
+            <div class="alert alert-danger">
+            <?php display_flash_message('danger') ;?>
+            </div>
+            <?php endif;?>
             <div class="subheader">
                 <h1 class="subheader-title">
                     <i class='subheader-icon fal fa-users'></i> Список пользователей

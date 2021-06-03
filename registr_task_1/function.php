@@ -10,41 +10,24 @@ function get_user_by_email($email, $pdo)
 
 function add_user($email,$password, $pdo)
 {
-    
     $sql="INSERT INTO users (email, password) VALUES (:email, :password)";
     $statement=$pdo->prepare($sql);
     $statement->execute(['email'=>$email, 'password'=>$password]);
-
-    $sql="SELECT * FROM users WHERE email=:email";
-    $statement=$pdo->prepare($sql);
-    $statement->execute(['email' => $email]);
-    $user_add=$statement->fetch(PDO::FETCH_ASSOC);
     $id=$pdo->lastInsertId();
-    return $user_add;
+    return $id;
 }
 
-function set_flash_message($sess_key,$message)
-{ 
-    if($sess_key=='success')
-    {
-        $_SESSION['class']='alert-success'; 
-        $_SESSION['auth']=true;
-        $_SESSION['message'] = $message;
-    }
-    if($sess_key=='ganger')
-    {
-        $_SESSION['class']='alert-danger'; 
-        $_SESSION['auth']=null;
-        $_SESSION['message'] = $message;
-    }
+function set_flash_message($name,$message)
+{    
+    $_SESSION[$name]=$message;     
 }
 
 
 function set_session_auth($id,$email)
 {    
-        $_SESSION['id']=$id; 
-        $_SESSION['login']=$email;
-    
+    $_SESSION['id']=$id; 
+    $_SESSION['login']=$email;
+    $_SESSION['auth']=true;
 }
 function redirect_to($file)
 {  
@@ -63,8 +46,7 @@ function redirect_to($file)
 }
 
 function login($email,$password,$pdo)
-{
-    
+{  
     $sql="SELECT * FROM  users WHERE email=:email";
     $statement=$pdo->prepare($sql);
     $statement->execute(['email' => $email]);
@@ -78,30 +60,24 @@ function login($email,$password,$pdo)
         {    
             $id=$pdo->lastInsertId();
             set_session_auth($id,$email);
-            $message='You are successfully logged in as '.$_SESSION['login'].'!';
-            set_flash_message('success',$message);
+            set_flash_message('success','You are successfully logged in as '.$_SESSION['login'].'!');
             return true;
         }
         else
-        {
-            $message='Пароль не верный!';
-            set_flash_message('danger',$message);
+        {   
+            set_flash_message('danger','Пароль не верный!');
             return false;
         }
     }
     else
-    {
-        $message='Такого логина нет!';
-        set_flash_message('danger',$message);
+    {   
+        set_flash_message('danger','Такого логина нет!');
         return false;
     }
 }
 
-function display_flash_message($sess)
-{ 
-    if(isset($_SESSION[$sess]))
-    {  
-        echo $_SESSION[$sess];
-        unset($_SESSION[$sess]);
-    }
+function display_flash_message($name)
+{    
+    echo $_SESSION[$name];
+    unset($_SESSION[$name]);    
 }

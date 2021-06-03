@@ -2,7 +2,6 @@
 session_start();
 require 'init.php';
 require 'function.php';
-   
 if(isset($_POST['email']) and isset($_POST['password'])){
     $password=$_POST['password'];
     $email=$_POST['email'];
