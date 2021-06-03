@@ -5,7 +5,6 @@ function get_user_by_email($email, $pdo)
     $statement=$pdo->prepare($sql);
     $statement->execute(['email' => $email]);
     $user=$statement->fetch(PDO::FETCH_ASSOC);
-    //var_dump($user);
     return $user; 
 }
 
@@ -20,19 +19,19 @@ function add_user($email,$password, $pdo)
     $statement=$pdo->prepare($sql);
     $statement->execute(['email' => $email]);
     $user_add=$statement->fetch(PDO::FETCH_ASSOC);
-    $id=$pdo->lastInsertId($sql);var_dump($id);
+    $id=$pdo->lastInsertId();
     return $user_add;
 }
 
 function set_flash_message($sess_key,$message)
 { 
-    if('success')
+    if($sess_key=='success')
     {
         $_SESSION['class']='alert-success'; 
         $_SESSION['auth']=true;
         $_SESSION['message'] = $message;
     }
-    if('danger')
+    if($sess_key=='ganger')
     {
         $_SESSION['class']='alert-danger'; 
         $_SESSION['auth']=null;
@@ -42,11 +41,9 @@ function set_flash_message($sess_key,$message)
 
 
 function set_session_auth($id,$email)
-{ 
-    
+{    
         $_SESSION['id']=$id; 
         $_SESSION['login']=$email;
-        $_SESSION['auth']=true;
     
 }
 function redirect_to($file)
@@ -80,7 +77,6 @@ function login($email,$password,$pdo)
         if(password_verify($password, $hash))
         {    
             $id=$pdo->lastInsertId();
-            //$id=mysqli_insert_id($sql);
             set_session_auth($id,$email);
             $message='You are successfully logged in as '.$_SESSION['login'].'!';
             set_flash_message('success',$message);
