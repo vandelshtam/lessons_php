@@ -79,7 +79,7 @@ function login($email,$password,$pdo)
         $hash = $user[0]['password'];
         if(password_verify($password, $hash))
         {    
-            $id=$pdo->lastInsertId($sql);
+            $id=$pdo->lastInsertId();
             //$id=mysqli_insert_id($sql);
             set_session_auth($id,$email);
             $message='You are successfully logged in as '.$_SESSION['login'].'!';
