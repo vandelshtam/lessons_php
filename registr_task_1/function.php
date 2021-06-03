@@ -24,11 +24,20 @@ function add_user($email,$password, $pdo)
     return $user_add;
 }
 
-function set_flash_message($class,$auth,$message)
-{     
-    $_SESSION['class']=$class; 
-    $_SESSION['auth']=$auth;
-    $_SESSION['message'] = $message;  
+function set_flash_message($sess_key,$message)
+{ 
+    if('success')
+    {
+        $_SESSION['class']='alert-success'; 
+        $_SESSION['auth']=true;
+        $_SESSION['message'] = $message;
+    }
+    if('danger')
+    {
+        $_SESSION['class']='alert-danger'; 
+        $_SESSION['auth']=null;
+        $_SESSION['message'] = $message;
+    }
 }
 
 
@@ -74,26 +83,20 @@ function login($email,$password,$pdo)
             //$id=mysqli_insert_id($sql);
             set_session_auth($id,$email);
             $message='You are successfully logged in as '.$_SESSION['login'].'!';
-            $auth=true;
-            $class='alert-success';
-            set_flash_message($class,$auth,$message);
+            set_flash_message('success',$message);
             return true;
         }
         else
         {
             $message='Пароль не верный!';
-            $auth=null;
-            $class='alert-danger';
-            set_flash_message($class,$auth,$message);
+            set_flash_message('danger',$message);
             return false;
         }
     }
     else
     {
         $message='Такого логина нет!';
-        $auth=null;
-        $class='alert-danger';
-        set_flash_message($class,$auth,$message);
+        set_flash_message('danger',$message);
         return false;
     }
 }
