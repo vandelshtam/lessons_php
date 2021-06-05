@@ -10,9 +10,10 @@ function get_user_by_email($email, $pdo)
 
 function add_user($email,$password, $pdo)
 {
-    $sql="INSERT INTO users (email, password) VALUES (:email, :password)";
+    $user='user';
+    $sql="INSERT INTO users (email, password, status) VALUES (:email, :password, :user)";
     $statement=$pdo->prepare($sql);
-    $statement->execute(['email'=>$email, 'password'=>$password]);
+    $statement->execute(['email'=>$email, 'password'=>$password, 'user'=>$user]);
     $id=$pdo->lastInsertId();
     return $id;
 }
@@ -51,7 +52,7 @@ function login($email,$password,$pdo)
     $statement=$pdo->prepare($sql);
     $statement->execute(['email' => $email]);
     $user=$statement->fetchAll(PDO::FETCH_ASSOC);
-    var_dump($user);
+    
     
     if(!empty($user))
     {
@@ -80,4 +81,40 @@ function display_flash_message($name)
 {    
     echo $_SESSION[$name];
     unset($_SESSION[$name]);    
+}
+
+function is_logged_in()
+{
+    if(isset($_SESSION['auth'])==true)
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+function is_admin_in($pdo,$email)
+{
+    $email=$_SESSION['login'];
+    $user=get_user_by_email($email, $pdo);
+    if($user['status']=='admin')
+    {
+        set_flash_message('status','admin');
+        return true;
+    }
+    else{
+        set_flash_message('status','user');
+        return false;
+    }    
+}
+
+function get_user($pdo)
+{
+    $sql="SELECT * FROM  users";
+    $statement=$pdo->prepare($sql);
+    $statement->execute();
+    $user=$statement->fetchAll(PDO::FETCH_ASSOC);
+    return $user; 
 }
