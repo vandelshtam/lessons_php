@@ -52,7 +52,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <?php if(is_admin_in($pdo,$email)==true):?>
-                    <a class="btn btn-success" href="create_user.html">Добавить</a>
+                    <a class="btn btn-success" href="create_user.php">Добавить</a>
                     <?php endif;?>
                     <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">
                         <input type="text" id="js-filter-contacts" name="filter-contacts" class="form-control shadow-inset-2 form-control-lg" placeholder="Найти пользователя">
@@ -77,17 +77,17 @@
                                     <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
                                     <div class="d-flex flex-row align-items-center">
                                     <span class="status status-success mr-3">
-                                    <span class="rounded-circle profile-image d-block " style="background-image:url('.$elem['avatar'].'); background-size: cover;"></span>
+                                    <span class="rounded-circle profile-image d-block " style="background-image:url('.$elem['media_avatar'].'); background-size: cover;"></span>
                                     </span>
                                     <div class="info-card-text flex-1">
                                     <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
-                                    '.$elem['name'].'';
+                                    '.$elem['general_information_name'].'';
                                     if($_SESSION['status']=='admin' or $_SESSION['login']==$elem['email']): 
                                         echo   '<i class="fal fas fa-cog fa-fw d-inline-block ml-1 fs-md"></i>
                                                 <i class="fal fa-angle-down d-inline-block ml-1 fs-md"></i>';
                                     endif;
                                 echo  '</a>';
-                                    if($_SESSION['status']=='admin' or $_SESSION['login']==$elem['email']): 
+                                    if($_SESSION['status']=='admin' or $_SESSION['login']==$elem['users_email']): 
                                         echo   '<div class="dropdown-menu">
                                                 <a class="dropdown-item" href="edit.html">
                                                 <i class="fa fa-edit"></i>
@@ -108,7 +108,7 @@
                                                 </a>   
                                                 </div>';
                                             endif;
-                                echo    '<span class="text-truncate text-truncate-xl">'.$elem['occupation'].'</span>
+                                echo    '<span class="text-truncate text-truncate-xl">'.$elem['general_information_occupation'].'</span>
                                         </div>
                                         <button class="js-expand-btn btn btn-sm btn-default d-none" data-toggle="collapse" data-target="#c_1 > .card-body + .card-body" aria-expanded="false">
                                         <span class="collapsed-hidden">+</span>
@@ -119,20 +119,20 @@
                                         <div class="card-body p-0 collapse show">
                                         <div class="p-3">
                                         <a href="tel:+13174562564" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                        <i class="fas fa-mobile-alt text-muted mr-2"></i>'.$elem['telefon'].'</a>
+                                        <i class="fas fa-mobile-alt text-muted mr-2"></i>'.$elem['general_information_phone'].'</a>
                                         <a href="mailto:oliver.kopyov@smartadminwebapp.com" class="mt-1 d-block fs-sm fw-400 text-dark">
-                                        <i class="fas fa-mouse-pointer text-muted mr-2"></i>'.$elem['email'].'</a>
+                                        <i class="fas fa-mouse-pointer text-muted mr-2"></i>'.$elem['users_email'].'</a>
                                         <address class="fs-sm fw-400 mt-4 text-muted">
-                                        <i class="fas fa-map-pin mr-2"></i> 15 Charist St, Detroit, MI, 48212, USA</address>
+                                        <i class="fas fa-map-pin mr-2"></i>'.$elem['general_information_location'].'</address>
                                         <div class="d-flex flex-row">
                                         <a href="javascript:void(0);" class="mr-2 fs-xxl" style="color:#4680C2">
-                                        <i class="fab fa-vk"></i>
+                                        <i class="fab fa-vk">'.$elem['social_networks_vk'].'</i>
                                         </a>
                                         <a href="javascript:void(0);" class="mr-2 fs-xxl" style="color:#38A1F3">
-                                        <i class="fab fa-telegram"></i>
+                                        <i class="fab fa-telegram">'.$elem['social_networks_telegram'].'</i>
                                         </a>
                                         <a href="javascript:void(0);" class="mr-2 fs-xxl" style="color:#E1306C">
-                                        <i class="fab fa-instagram"></i>
+                                        <i class="fab fa-instagram">'.$elem['social_networks_instagram'].'</i>
                                         </a>
                                         </div>
                                         </div>
