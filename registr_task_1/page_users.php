@@ -82,12 +82,12 @@
                                     <div class="info-card-text flex-1">
                                     <a href="javascript:void(0);" class="fs-xl text-truncate text-truncate-lg text-info" data-toggle="dropdown" aria-expanded="false">
                                     '.$elem['general_information_name'].'';
-                                    if($_SESSION['status']=='admin' or $_SESSION['login']==$elem['email']): 
+                                    if($_SESSION['status']=='admin' or $_SESSION['login']==$elem['users_email']): 
                                         echo   '<i class="fal fas fa-cog fa-fw d-inline-block ml-1 fs-md"></i>
                                                 <i class="fal fa-angle-down d-inline-block ml-1 fs-md"></i>';
                                     endif;
                                 echo  '</a>';
-                                    if($_SESSION['status']=='admin' or $_SESSION['login']==$elem['users_email']): 
+                                    if($_SESSION['status']=='admin' OR $_SESSION['login']==$elem['users_email']): 
                                         echo   '<div class="dropdown-menu">
                                                 <a class="dropdown-item" href="edit.php?users_id='.$elem['users_id'].'">
                                                 <i class="fa fa-edit"></i>
