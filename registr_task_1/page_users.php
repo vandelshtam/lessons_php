@@ -52,7 +52,7 @@
             <div class="row">
                 <div class="col-xl-12">
                     <?php if(is_admin_in($pdo,$email)==true):?>
-                    <a class="btn btn-success" href="create_user.php">Добавить</a>
+                    <a class="btn btn-success" href="add_users.php">Добавить</a>
                     <?php endif;?>
                     <div class="border-faded bg-faded p-3 mb-g d-flex mt-3">
                         <input type="text" id="js-filter-contacts" name="filter-contacts" class="form-control shadow-inset-2 form-control-lg" placeholder="Найти пользователя">
@@ -89,7 +89,7 @@
                                 echo  '</a>';
                                     if($_SESSION['status']=='admin' or $_SESSION['login']==$elem['users_email']): 
                                         echo   '<div class="dropdown-menu">
-                                                <a class="dropdown-item" href="edit.html">
+                                                <a class="dropdown-item" href="edit.php?users_id='.$elem['users_id'].'">
                                                 <i class="fa fa-edit"></i>
                                                 Редактировать</a>
                                                 <a class="dropdown-item" href="security.html">

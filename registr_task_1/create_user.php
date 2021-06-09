@@ -48,7 +48,7 @@
             <?php display_flash_message('danger') ;?>
             </div>
             <?php endif; ?>
-        <form action="" method="POST">
+        <form action="" method="POST" enctype="multipart/form-data">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -176,7 +176,7 @@
                                         </div>
                                     </div>
                                     <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                        <button class="btn btn-success">Добавить</button>
+                                        <button class="btn btn-success" name="send">Добавить</button>
                                     </div>
                                 </div>
                             </div>
