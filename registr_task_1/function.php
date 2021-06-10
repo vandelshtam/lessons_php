@@ -48,7 +48,11 @@ function redirect_to($file)
     if($file=='add_users')
     {
         header('Location:/php/lessons_php/registr_task_1/add_users.php');
-    }                
+    }
+    if($file=='profile')
+    {
+        header('Location:/php/lessons_php/registr_task_1/profile.php');
+    }                         
 }
 
 function login($email,$password,$pdo)
@@ -124,13 +128,20 @@ function get_user($pdo)
     $user=$statement->fetchAll(PDO::FETCH_ASSOC);
     return $user; 
 }
-
+function get_user_by($user_id,$pdo)
+{
+    $sql="SELECT * FROM users WHERE id='$user_id'";
+    $statement=$pdo->prepare($sql);
+    $statement->execute();
+    $user=$statement->fetchAll(PDO::FETCH_ASSOC);
+    return $user; 
+}
 
 function edit_information($user_id,$name,$occupation,$phone, $location, $pdo)
 {
-    $sql_id="UPDATE users SET  occupation=:occupation,  phone=:phone, location=:location, name=:name WHERE id='$user_id'";
+    $sql_id="UPDATE users SET name=:name, location=:location, phone=:phone, occupation=:occupation  WHERE id='$user_id'";
     $statement_id=$pdo->prepare($sql_id);
-    $statement_id->execute(['occupation'=>$occupation, 'phone'=>$phone, 'location'=>$location, 'name'=>$name]);  
+    $statement_id->execute(['name'=>$name, 'location'=>$location, 'phone'=>$phone, 'occupation'=>$occupation,]);  
     return true;
 }
 

@@ -12,21 +12,24 @@ if(is_logged_in()==false)
 
 
     $user_id=$_GET['users_id'];
+    $_SESSION['profile_id']=$user_id;
     $user=get_user_by($user_id,$pdo); 
-    if(isset($_POST['general_information_name']) or isset($_POST['preview'])  or  isset($_POST['url']) or isset($_POST['location']) or isset($_POST['article'])){
-        $name=$_POST['general_information_name'];
-        $occupation=$_POST['general_information_occupation'];
-        $phone=$_POST['general_information_phone'];
-        $location=$_POST['general_information_location'];
+    set_flash_message('id', ''.$users_id.'');
+    if(isset($_POST['name']) or isset($_POST['occupation'])  or  isset($_POST['phone']) or isset($_POST['location'])){
+        $name=$_POST['name'];
+        var_dump($name);
+        $occupation=$_POST['occupation'];
+        $phone=$_POST['phone'];
+        $location=$_POST['location'];
         edit_information($user_id,$name,$occupation,$phone, $location, $pdo);
         set_flash_message('success','Information edited successfully!');
-        redirect_to('users'); die();  
-
+        redirect_to('profile'); die();  
     }
-    else{
-        $name=$user['general_information_name'];
-        $occupation=$user['general_information_occupation'];
-        $phone=$user['general_information_phone'];
-        $location=$user['general_information_location'];
+    else
+    {
+        $name=$user[0]['name'];
+        $occupation=$user[0]['occupation'];
+        $phone=$user[0]['phone'];
+        $location=$user[0]['location'];
     }
 require 'page_edit.php';

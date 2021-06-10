@@ -38,7 +38,7 @@
             </h1>
 
         </div>
-        <form action="" method="POST">
+        <form action=""  method="POST">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -50,28 +50,28 @@
                                 <!-- username -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Имя</label>
-                                    <input type="text" id="simpleinput" class="form-control" name="general_information_name" value="<?php echo $name;?>">
+                                    <input type="text" id="simpleinput" class="form-control" name="name" value="<?php echo $name;?>">
                                 </div>
 
                                 <!-- title -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Место работы</label>
-                                    <input type="text" id="simpleinput" class="form-control" name="general_information_occupation" value="<?php echo $occupation;?>">
+                                    <input type="text" id="simpleinput" class="form-control" name="occupation" value="<?php echo $occupation;?>">
                                 </div>
 
                                 <!-- tel -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Номер телефона</label>
-                                    <input type="text" id="simpleinput" class="form-control" name="general_information_phone" value="<?php echo $phone;?>">
+                                    <input type="text" id="simpleinput" class="form-control" name="phone" value="<?php echo $phone;?>">
                                 </div>
 
                                 <!-- address -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Адрес</label>
-                                    <input type="text" id="simpleinput" class="form-control" name="general_information_location" value="<?php echo $location;?>">
+                                    <input type="text" id="simpleinput" class="form-control" name="location" value="<?php echo $location;?>">
                                 </div>
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                    <button class="btn btn-warning">Редактировать</button>
+                                    <button type="submit" class="btn btn-warning">Редактировать</button>
                                 </div>
                             </div>
                         </div>
