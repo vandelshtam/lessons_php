@@ -199,3 +199,10 @@ function set_file_image($image_name_tmp, $image_name, $direct)
         redirect_to('add_users');
     }
 }
+function edit_credentials($user_id,$email, $password, $pdo)
+{
+    $user=get_user_by_email($email, $pdo);
+    $email=$user['email'];
+    $password=$user['password'];
+    
+}
