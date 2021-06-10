@@ -34,3 +34,4 @@ if(is_logged_in()==false)
     }
 require 'page_edit.php';
 
+require 'page_eg';
