@@ -26,9 +26,6 @@ $user = get_user_by_email($email, $pdo);
     {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $user_id=add_user($email,$password, $pdo);
-    add_information($user_id,$name,$occupation,$phone, $location, $pdo);
-    add_user_status($user_id, $pdo, $online_status);
-    add_social($user_id,$vk,$telegram, $instagram, $pdo);
 
         if(isset($_POST['name']) or isset($_POST['occupation']) or isset($_POST['phone']) or isset($_POST['location']))
         {

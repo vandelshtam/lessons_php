@@ -17,10 +17,7 @@ else
 {
     $password = password_hash($_POST['userpassword'], PASSWORD_DEFAULT);
     $user_id=add_user($email,$password, $pdo);
-    add_information($user_id,$name,$occupation,$phone, $location, $pdo);
-    add_user_status($user_id, $pdo, $online_status);
-    add_social($user_id,$vk,$telegram, $instagram, $pdo);
-    set_session_auth($id,$user_id, $email);
+    set_session_auth($user_id, $email);
     set_flash_message('success','You have successfully registered!');
     redirect_to('login');die();
 }
