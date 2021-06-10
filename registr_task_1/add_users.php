@@ -26,15 +26,17 @@ $user = get_user_by_email($email, $pdo);
     {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $user_id=add_user($email,$password, $pdo);
+    add_information($user_id,$name,$occupation,$phone, $location, $pdo);
+    add_user_status($user_id, $pdo, $online_status);
+    add_social($user_id,$vk,$telegram, $instagram, $pdo);
 
         if(isset($_POST['name']) or isset($_POST['occupation']) or isset($_POST['phone']) or isset($_POST['location']))
         {
             $name=$_POST['name'];
-            var_dump($name);
             $occupation=$_POST['occupation'];
             $phone=$_POST['phone'];
             $location=$_POST['location'];
-            add_information($user_id,$name,$occupation,$phone, $location, $pdo);
+            edit_information($user_id,$name,$occupation,$phone, $location, $pdo);
         }
         
         if(isset($_POST['send']))
@@ -44,7 +46,7 @@ $user = get_user_by_email($email, $pdo);
             $image_name_tmp=$_FILES['avatar']['tmp_name'];
             $avatar='img/demo/avatars/'.$image_name;
             set_file_image($image_name_tmp, $image_name, $direct);
-            add_avatar($user_id, $pdo, $avatar);
+            update_avatar($user_id, $pdo, $avatar);
         }
         if(isset($_POST['online_status']))
         {
@@ -57,7 +59,7 @@ $user = get_user_by_email($email, $pdo);
             $vk=$_POST['vk'];
             $telegram=$_POST['telegram'];
             $instagram=$_POST['instagram'];
-            add_social($user_id, $vk, $telegram, $instagram,$pdo);
+            update_social($user_id, $vk, $telegram, $instagram,$pdo);
         }
         
     set_flash_message('success','You have successfully add!');

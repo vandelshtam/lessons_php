@@ -25,10 +25,10 @@ function set_flash_message($name,$message)
 }
 
 
-function set_session_auth($id,$email)
+function set_session_auth($user_id,$email)
 {    
-    $_SESSION['id']=$id; 
-    //$_SESSION['user_id']=$user_id; 
+
+    $_SESSION['user_id']=$user_id; 
     $_SESSION['login']=$email;
     $_SESSION['auth']=true;
 }
@@ -58,6 +58,7 @@ function login($email,$password,$pdo)
     $statement=$pdo->prepare($sql);
     $statement->execute(['email' => $email]);
     $user=$statement->fetchAll(PDO::FETCH_ASSOC);
+    $user_id=$pdo->lastInsertId();
     
     
     if(!empty($user))
@@ -65,8 +66,8 @@ function login($email,$password,$pdo)
         $hash = $user[0]['password'];
         if(password_verify($password, $hash))
         {    
-            $id=$pdo->lastInsertId();
-            set_session_auth($id,$email);
+            
+            set_session_auth($user_id, $email);
             set_flash_message('success','You are successfully logged in as '.$_SESSION['login'].'!');
             return true;
         }
