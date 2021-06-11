@@ -60,7 +60,8 @@
                                 <!-- email -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Email</label>
-                                    <input type="text" id="simpleinput" class="form-control" name="email" value="<?php echo $email;?>">
+                                    
+                                    <input type="text" id="simpleinput" class="form-control" name="email"  value="<?php echo $email;?>">
                                 </div>
 
                                 <!-- password -->

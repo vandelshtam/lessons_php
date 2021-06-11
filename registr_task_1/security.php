@@ -10,6 +10,7 @@ if(is_logged_in()==false)
 
 if(isset($_GET['users_id']))
 {
+    
 $user_auth=$_SESSION['user_id'];
 $user_auth_profil=get_user_by($user_auth,$pdo);
 $user_auth_password=$user_auth_profil[0]['password'];
@@ -21,7 +22,7 @@ $user_auth_email=$user_auth_profil[0]['email'];
     $profil_id=$user_profil[0]['id'];
     $profil_email=$user_profil[0]['email'];
 
-    var_dump($user_profil);
+    
 
 
         if(isset($_POST['email']) and isset($_POST['password']) and isset($_POST['confirm']))
@@ -47,26 +48,26 @@ $user_auth_email=$user_auth_profil[0]['email'];
                 else
                 {
                     set_flash_message('danger','Пароль не верный!');
-                    //redirect_to('security');die();
+                    header('Location:/php/lessons_php/registr_task_1/security.php?users_id='.$user_id.'');die();
                 }
              
             }
             else
             {
                 set_flash_message('danger','Пароль и подтверждение не совпадают!');
-                //redirect_to('security');die();
+                header('Location:/php/lessons_php/registr_task_1/security.php?users_id='.$user_id.'');die();
                         
             }   
         }
         else
         {
             set_flash_message('danger','Такой email (логин) занят, пожалуйста введите другой email!');
-            //redirect_to('security');die();
+            header('Location:/php/lessons_php/registr_task_1/security.php?users_id='.$user_id.'');die();
         }
         }
         else
         {
-            set_flash_message('success','Вы можете изменить данные');
+            
             $email=$profil_email;
         }
 }
