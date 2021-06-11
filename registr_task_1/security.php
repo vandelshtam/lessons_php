@@ -3,87 +3,54 @@ session_start();
 require 'function.php'; 
 require 'init.php';
 
-$user_id=$_GET['users_id'];
-var_dump($_GET['users_id']);
-$email=$_SESSION['login'];
-$id=$_SESSION['user_id'];
-var_dump($_SESSION['user_id']);
-var_dump($id);
-if(is_logged_in()==false or is_admin_in($pdo,$email)==false)
+$email_profil=$_GET['email'];//email пользователя чью страницу будем редактировать
+$email_login=$_SESSION['login'];//email авторизованного пользователя который редактирует страницу
+$user_profil=get_user_by_email($email_profil, $pdo);//запрашиваем данные пользователя по email_profil полученому в GET
+$user_id=$user_profil['id'];
+
+//проверяем авторизован пользователь, если нет отправляем на страницу авторизации
+if(is_logged_in()==false)
 {
-    redirect_to('login');
+    redirect_to('login'); die();
 }
-if($_SESSION['user_id']!=$_GET['users_id'] and is_admin_in($pdo,$email)==false)
+//проверяем является ли пользователь админом или владельцем редактируемой страницы
+//если да то выполняем код дальше, если нет - переадресуем на страницу пользователей
+//Я НЕ СМОГ РЕАЛИЗОВАТЬ РАБОТАЮЩЕЕ РЕШЕНИЕ!!!!!!!!!!!!!!! ПОЭТОМУ ОСТАВИЛ ЭТО ЗАКОЛММЕНТИРОВАННЫМ
+/*
+if($_GET['email']!=$_SESSION['login'] and is_admin_in($pdo,$_SESSION['login'])==false)
 {
     set_flash_message('danger','You can only edit your profile!');
-    redirect_to('users');
-}
-
-$user=get_user_by_email($email, $pdo);
-$email=$user['email'];
-$password=$user['password'];
-var_dump($user);
-set_flash_message('success','Теперь вы можете редактировать данные');
-
-
-
-
-if($_SESSION['login']!=$user['email'])
-{
     redirect_to('users');die();
 }
-
-if(isset($_POST['email']) and isset($_POST['password']))
+*/
+   
+if(isset($_POST['email']) and isset($_POST['password']) and isset($_POST['confirm']))
 {
-
-$email=$_POST['email'];
-$password = $_POST['password'];
-$user = get_user_by_email($email, $pdo);
-
-    if(!empty($user))
-    {
-        set_flash_message('danger','This address is already taken, please try another!');
-        redirect_to('add_users'); die();  
-    }
-    else
-    {
-    $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
-    $user_id=add_user($email,$password, $pdo);
-
-        if(isset($_POST['name']) or isset($_POST['occupation']) or isset($_POST['phone']) or isset($_POST['location']))
+    $email=$_POST['email'];
+    $password=$_POST['password'];
+    $confirm=$_POST['confirm'];
+    $user=get_user_by_email($email, $pdo);
+    var_dump($user['email']);
+    //проверим есть  такая почта (логин) в БД  и отличается ли введенная новая почта той которая 
+    //имеется в базе данных если она принадлежит пользователю/адимну которые изменяют данные своей страницы
+    //в случае выполнения условий запишем новую почту в таблицу БД
+        if($email_profil==$email or empty($user) )
         {
-            $name=$_POST['name'];
-            $occupation=$_POST['occupation'];
-            $phone=$_POST['phone'];
-            $location=$_POST['location'];
-            edit_information($user_id,$name,$occupation,$phone, $location, $pdo);
+            edit_credentials($user_id,$email,$email_profil, $email_login, $password, $confirm, $pdo);   
         }
-        
-        if(isset($_POST['send']))
+        else
         {
-            $direct='/Applications/MAMP/htdocs/php/lessons_php/registr_task_1/img/demo/avatars/';//у меня работает только абсолютный адрес
-            $image_name=$_FILES['avatar']['name'];
-            $image_name_tmp=$_FILES['avatar']['tmp_name'];
-            $avatar='img/demo/avatars/'.$image_name;
-            set_file_image($image_name_tmp, $image_name, $direct);
-            update_avatar($user_id, $pdo, $avatar);
+            set_flash_message('danger','Такой email (логин) занят, пожалуйста введите другой email!');
+            redirect_to('security');die();
         }
-        if(isset($_POST['online_status']))
-        {
-            $online_status=$_POST['online_status'];
-            var_dump($online_status);
-            set_user_status($user_id, $pdo, $online_status);
-        }
-        if(isset($_POST['vk']) or isset($_POST['telegram']) or isset($_POST['instagram']))
-        {
-            $vk=$_POST['vk'];
-            $telegram=$_POST['telegram'];
-            $instagram=$_POST['instagram'];
-            update_social($user_id, $vk, $telegram, $instagram,$pdo);
-        }
-        
-    set_flash_message('success','You have successfully add!');
-    redirect_to('users');die();
-    }
+    
 }
+else
+{
+     $email=$user_profil['email'];//если post запроса еще нет, запишем в форму емайл пользователя страницы которую предстоит редактировать
+}
+
+
+
+
 require 'page_security.php';

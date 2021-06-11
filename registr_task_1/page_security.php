@@ -38,7 +38,17 @@
             </h1>
 
         </div>
-        <form action="">
+        <?php if(isset($_SESSION['success'])):;?>
+            <div class="alert alert-success">
+            <?php display_flash_message('success') ;?>
+            </div>
+            <?php endif;?>
+            <?php if(isset($_SESSION['danger'])):;?>
+            <div class="alert alert-danger">
+            <?php display_flash_message('danger') ;?>
+            </div>
+            <?php endif;?>
+        <form action="" method="POST">
             <div class="row">
                 <div class="col-xl-6">
                     <div id="panel-1" class="panel">
@@ -50,24 +60,24 @@
                                 <!-- email -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Email</label>
-                                    <input type="text" id="simpleinput" class="form-control" value="john@example.com">
+                                    <input type="text" id="simpleinput" class="form-control" name="email" value="<?php echo $email;?>">
                                 </div>
 
                                 <!-- password -->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Пароль</label>
-                                    <input type="password" id="simpleinput" class="form-control">
+                                    <input type="password" id="simpleinput" name="password" class="form-control">
                                 </div>
 
                                 <!-- password confirmation-->
                                 <div class="form-group">
                                     <label class="form-label" for="simpleinput">Подтверждение пароля</label>
-                                    <input type="password" id="simpleinput" class="form-control">
+                                    <input type="password" id="simpleinput" name="confirm" class="form-control">
                                 </div>
 
 
                                 <div class="col-md-12 mt-3 d-flex flex-row-reverse">
-                                    <button class="btn btn-warning">Изменить</button>
+                                    <button class="btn btn-warning" type="submit">Изменить</button>
                                 </div>
                             </div>
                         </div>

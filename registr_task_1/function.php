@@ -52,7 +52,11 @@ function redirect_to($file)
     if($file=='profile')
     {
         header('Location:/php/lessons_php/registr_task_1/profile.php');
-    }                         
+    }
+    if($file=='security')
+    {
+        header('Location:/php/lessons_php/registr_task_1/security.php');
+    }                                
 }
 
 function login($email,$password,$pdo)
@@ -199,10 +203,38 @@ function set_file_image($image_name_tmp, $image_name, $direct)
         redirect_to('add_users');
     }
 }
-function edit_credentials($user_id,$email, $password, $pdo)
-{
-    $user=get_user_by_email($email, $pdo);
-    $email=$user['email'];
-    $password=$user['password'];
-    
+
+function edit_credentials($user_id,$email,$email_profil, $email_login, $password, $confirm, $pdo)
+{ 
+    if($password==$confirm)
+    {
+        $user_profil=get_user_by_email($email_profil, $pdo);
+        $hash = $user_profil['password']; 
+        
+            if(password_verify($password, $hash))
+            {
+                $sql_id="UPDATE users SET email=:email   WHERE id='$user_id'";
+                $statement_id=$pdo->prepare($sql_id);
+                $statement_id->execute(['email'=>$email]);
+                        //запишем в сессию новую почту (логин) если  логин  измененил админ или пользователь  изменил свой логин
+                        if(is_admin_in($pdo,$email_profil)==true or $email_login==$email_profil)
+                        {
+                            $_SESSION['login']=$email;
+                        }
+                set_flash_message('success','Вы успешно изменили данные!');
+                redirect_to('users');die();
+            }
+            else
+            {
+                set_flash_message('danger','Пароль не верный!');
+                redirect_to('security');die();
+            }
+             
+    }
+    else
+    {
+        set_flash_message('danger','Пароль и подтверждение не совпадают!');
+        redirect_to('security');die();
+                 
+    }
 }
