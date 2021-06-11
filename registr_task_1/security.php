@@ -2,7 +2,7 @@
 session_start();
 require 'function.php'; 
 require 'init.php';
-$_SESSION['danger']=null;
+
 if(is_logged_in()==false)
 {
     redirect_to('login'); die();
