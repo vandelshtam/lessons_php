@@ -204,37 +204,16 @@ function set_file_image($image_name_tmp, $image_name, $direct)
     }
 }
 
-function edit_credentials($user_id,$email,$email_profil, $email_login, $password, $confirm, $pdo)
+function edit_credentials($user_id,$email,$profil_email, $user_auth_email, $pdo)
 { 
-    if($password==$confirm)
-    {
-        $user_profil=get_user_by_email($email_profil, $pdo);
-        $hash = $user_profil['password']; 
-        
-            if(password_verify($password, $hash))
-            {
-                $sql_id="UPDATE users SET email=:email   WHERE id='$user_id'";
-                $statement_id=$pdo->prepare($sql_id);
-                $statement_id->execute(['email'=>$email]);
-                        //запишем в сессию новую почту (логин) если  логин  измененил админ или пользователь  изменил свой логин
-                        if(is_admin_in($pdo,$email_profil)==true or $email_login==$email_profil)
-                        {
-                            $_SESSION['login']=$email;
-                        }
-                set_flash_message('success','Вы успешно изменили данные!');
-                redirect_to('users');die();
-            }
-            else
-            {
-                set_flash_message('danger','Пароль не верный!');
-                redirect_to('security');die();
-            }
-             
-    }
-    else
-    {
-        set_flash_message('danger','Пароль и подтверждение не совпадают!');
-        redirect_to('security');die();
-                 
-    }
+    $sql_id="UPDATE users SET email=:email   WHERE id='$user_id'";
+                    $statement_id=$pdo->prepare($sql_id);
+                    $statement_id->execute(['email'=>$email]);
+                            
+                            if(is_admin_in($pdo,$user_auth_email)==true or $user_auth_email==$profil_email)
+                            {
+                                $_SESSION['login']=$email;
+                            }
+                    set_flash_message('success','Вы успешно изменили данные!');
+                    redirect_to('users');die();
 }

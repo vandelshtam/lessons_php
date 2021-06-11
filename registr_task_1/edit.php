@@ -33,5 +33,3 @@ if(is_logged_in()==false)
         $location=$user[0]['location'];
     }
 require 'page_edit.php';
-
-require 'page_eg';

@@ -92,7 +92,7 @@
                                                 <a class="dropdown-item" href="edit.php?users_id='.$elem['id'].'">
                                                 <i class="fa fa-edit"></i>
                                                 Редактировать</a>
-                                                <a class="dropdown-item" href="security.php?email='.$elem['email'].'">
+                                                <a class="dropdown-item" href="security.php?users_id='.$elem['id'].'">
                                                 <i class="fa fa-lock"></i>
                                                 Безопасность</a>
                                                 <a class="dropdown-item" href="status.html">
