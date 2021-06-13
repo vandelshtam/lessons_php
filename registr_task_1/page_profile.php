@@ -32,6 +32,16 @@
                 </ul>
             </div>
         </nav>
+        <?php if(isset($_SESSION['success'])):;?>
+            <div class="alert alert-success">
+            <?php display_flash_message('success') ;?>
+            </div>
+            <?php endif;?>
+            <?php if(isset($_SESSION['danger'])):;?>
+            <div class="alert alert-danger">
+            <?php display_flash_message('danger') ;?>
+            </div>
+            <?php endif;?>
         <main id="js-page-content" role="main" class="page-content mt-3">
             <div class="subheader">
                 <h1 class="subheader-title">

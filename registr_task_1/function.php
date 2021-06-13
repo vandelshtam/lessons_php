@@ -55,7 +55,7 @@ function redirect_to($file)
     }
     if($file=='security')
     {
-        header('Location:/php/lessons_php/registr_task_1/security.php');
+        header('Location:/php/lessons_php/registr_task_1/security.php?users_id');
     }                                
 }
 
@@ -204,16 +204,10 @@ function set_file_image($image_name_tmp, $image_name, $direct)
     }
 }
 
-function edit_credentials($user_id,$email,$profil_email, $user_auth_email, $pdo)
+function edit_credentials($user_id,$email, $pdo)
 { 
     $sql_id="UPDATE users SET email=:email   WHERE id='$user_id'";
-                    $statement_id=$pdo->prepare($sql_id);
-                    $statement_id->execute(['email'=>$email]);
+    $statement_id=$pdo->prepare($sql_id);
+    $statement_id->execute(['email'=>$email]);
                             
-                            if(is_admin_in($pdo,$user_auth_email)==true or $user_auth_email==$profil_email)
-                            {
-                                $_SESSION['login']=$email;
-                            }
-                    set_flash_message('success','Вы успешно изменили данные!');
-                    redirect_to('users');die();
 }
