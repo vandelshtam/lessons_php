@@ -95,7 +95,7 @@
                                                 <a class="dropdown-item" href="security.php?users_id='.$elem['id'].'">
                                                 <i class="fa fa-lock"></i>
                                                 Безопасность</a>
-                                                <a class="dropdown-item" href="status.html">
+                                                <a class="dropdown-item" href="status.php?users_id='.$elem['id'].'">
                                                 <i class="fa fa-sun"></i>
                                                 Установить статус</a>
                                                 <a class="dropdown-item" href="media.html">
