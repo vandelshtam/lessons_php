@@ -98,7 +98,7 @@
                                                 <a class="dropdown-item" href="status.php?users_id='.$elem['id'].'">
                                                 <i class="fa fa-sun"></i>
                                                 Установить статус</a>
-                                                <a class="dropdown-item" href="media.html">
+                                                <a class="dropdown-item" href="media.php?users_id='.$elem['id'].'">
                                                 <i class="fa fa-camera"></i>
                                                 Загрузить аватар
                                                 </a>

@@ -211,3 +211,19 @@ function edit_credentials($user_id,$email, $pdo)
     $statement_id->execute(['email'=>$email]);
                             
 }
+function his_avatar($avatar,$pdo)
+{
+    $sql="SELECT * FROM users WHERE avatar='$avatar'";
+    $statement=$pdo->prepare($sql);
+    $statement->execute();
+    $user_avatar=$statement->fetch(PDO::FETCH_ASSOC);
+    if(!empty($user_avatar))
+    {
+        return true; 
+    }
+    else
+    {
+        return false;
+    }
+    
+}
