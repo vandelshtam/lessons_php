@@ -224,6 +224,18 @@ function his_avatar($avatar,$pdo)
     else
     {
         return false;
-    }
-    
+    }    
+}
+
+function delete($user_id,$pdo)
+{
+    $sql="DELETE FROM users WHERE id='$user_id'";
+    $statement=$pdo->prepare($sql);
+    $statement->execute();
+}
+function logout()
+{
+    set_flash_message('success','Вы успешно удалили свою страницу');
+    redirect_to('register');die();
+    set_session_auth('NULL','NULL');
 }
