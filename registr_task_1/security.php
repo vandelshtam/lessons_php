@@ -25,4 +25,11 @@ if(isset($_POST['email']) and isset($_POST['password']))
         redirect_to('security');die();
     }
 }
+/*
+$fh = fopen('img/demo/avatars/kuksh.html', 'a');
+//fwrite($fh, '<h1>Привет, мир!</h1>');
+fclose($fh);
+
+unlink('img/demo/avatars/kuksh.html');
+*/
 require 'page_security.php';

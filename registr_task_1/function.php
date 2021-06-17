@@ -239,3 +239,17 @@ function logout()
     redirect_to('register');die();
     set_session_auth('NULL','NULL');
 }
+
+function delete_file($users_id,$pdo)
+{
+    
+    $sql="SELECT * FROM users WHERE id='$users_id'";
+    $statement=$pdo->prepare($sql);
+    $statement->execute();
+    $user=$statement->fetchAll(PDO::FETCH_ASSOC);
+    if($user[0]['avatar']!=null)
+    {
+
+        unlink($user[0]['avatar']);
+    }    
+}

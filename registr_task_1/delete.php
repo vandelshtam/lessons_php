@@ -5,6 +5,7 @@ require 'init.php';
 
 if(isset($_GET['users_id']))
 {
+    delete_file($_GET['users_id'],$pdo);
     delete($_GET['users_id'],$pdo);
     
     if(isset($_SESSION['user_id'])==$_GET['users_id'])
