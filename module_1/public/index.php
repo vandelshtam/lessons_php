@@ -11,7 +11,7 @@ $route = $_SERVER['REQUEST_URI'];
 
 if(array_key_exists($route, $routes))
 {
-    //dd($route);
+    //dd($routes[$route]);
     include '/Applications/MAMP/htdocs/php/lessons_php/module_1/'.$routes[$route];exit;
 }
 else

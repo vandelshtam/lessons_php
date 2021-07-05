@@ -19,6 +19,7 @@ class QueryBuilder {
         $sql = "SELECT * FROM {$table} WHERE id=:id";
         $statement = $this->pdo->prepare($sql);
         $statement->bindValue(':id', $id);
+        //$statement->bindParam(':id', $id);//принимает только переменную ввкести строку или цифру нельзя
         $statement->execute();
         $result = $statement->fetch(PDO::FETCH_ASSOC);
         return $result;
