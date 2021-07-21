@@ -8,7 +8,8 @@ $routes = [
 ];
 
 $route = $_SERVER['REQUEST_URI'];
-
+echo strrchr($route, '/');
+dd($route);
 if(array_key_exists($route, $routes))
 {
     

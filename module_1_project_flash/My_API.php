@@ -32,21 +32,30 @@
   <div class="accordion-item">
     <h2 class="accordion-header" id="headingOne">
       <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-        Метод "Router - обработка запросов"
+      Метод "Flash.get", вывод флеш сообщений основанный на сессиях.
       </button>
     </h2>
     <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
       <div class="accordion-body">
-        <strong>Метод позволяет обрабатывать запросы и выводить запрошенную информацию на дисплей. Название метода -  touter.get. Метод позволдяет обработать 3 (три) зпроса: 1.переход на "домашнюю страницу", 2.Переход на страницу "о нас", 3. Переход на страницу "контакты". 
+        <strong>Метод позволяет обрабатывать запросы и выводить флеш сообщения  на дисплей. 
 
         </strong> Чтобы использовать этот метод Вам необходимо отправить запросы следующего  вида: <br>
-         1.переход на домашнюю страницуhttp://localhost:8888/php/lessons_php/module_1_project_router/project_router/homepage.get . <br>
-         2.переход на домашнюю страницуhttp://localhost:8888/php/lessons_php/module_1_project_router/project_router/about.get  . <br>
-         3.переход на домашнюю страницуhttp://localhost:8888/php/lessons_php/module_1_project_router/project_router/contacts.get  . <br><br>
-         <code>Или можете использовать  готовые конструкции запроса:
-            <a href="/php/lessons_php/module_1_project_router/project_router/homepage.get" class="btn btn-success">homepage.get</a> 
-            <a href="/php/lessons_php/module_1_project_router/project_router/about.get" class="btn btn-success">about.get</a>
-            <a href="/php/lessons_php/module_1_project_router/project_router/contacts.get" class="btn btn-success">contacts.get</a>
+         http://localhost:8888/php/lessons_php/module_1_project_flash/project_flash=и дописать в конце этого запроса после знака "=" свое сообщение<br>
+         например:<br>
+         http://localhost:8888/php/lessons_php/module_1_project_flash/project_flash=Hello!!!
+         <br><br><br>
+         <code>Или можете использовать  готовые конструкции запроса:<br><br>
+           напишите текст сообщения и нажмите кнопку "отправить" <br><br>
+           <form method="$_GET" width="700px">
+             <input type="text" name="flash" value="" width="700px">
+             <input type="submit"  class="btn btn-success"><br><br><br>
+             <br><br> 
+            далее нажмите кнопку необходимого Вам вида сообщения, и Вы перейдете на страницу с выведенным сообщением <br><br>  
+            <a href="/php/lessons_php/module_1_project_flash/project_flash/success=<?php echo ($_GET['flash']);?>" class="btn btn-success">flash-success.get</a>
+            <a href="/php/lessons_php/module_1_project_flash/project_flash/danger=<?php echo ($_GET['flash']);?>" class="btn btn-danger">flash-danger.get</a>
+            <a href="/php/lessons_php/module_1_project_flash/project_flash/info=<?php echo ($_GET['flash']);?>" class="btn btn-info">flash-info.get</a>
+           </form>
+            
           </code>
         <br><br>
         <strong>Для преподователя, пошаговое описание хода мыслей ученика при разработке компонента:</strong> <br>
