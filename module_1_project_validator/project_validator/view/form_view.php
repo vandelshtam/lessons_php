@@ -1,20 +1,7 @@
-<?php 
-
-  require('/Applications/MAMP/htdocs/php/lessons_php/module_1_project_validator/project_validator/controller/validator.php');
-  
-  $errors = [];
-
-  if(isset($_POST['submit'])){
-    $validation = new UserValidator($_POST);
-    $errors = $validation->validateForm();
-  }
-
-?>
-
 <html lang="en">
 <head>
   <title>validator</title>
-  <link rel="stylesheet" type="text/css" href="styles.css">
+  <link rel="stylesheet" type="text/css" href="/php/lessons_php/module_1_project_validator/project_validator/view/styles.css">
 </head>
 <body>
   
