@@ -6,4 +6,4 @@ $post = $db->getOne('posts', $_GET['id']);
 
 ?>
 
-<h2><?php echo $post['title'];?></h2>
+<h2><?php echo $post['title'];?></h2>;
