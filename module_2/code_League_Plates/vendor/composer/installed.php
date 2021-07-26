@@ -1,0 +1,41 @@
+<?php return array(
+    'root' => array(
+        'pretty_version' => 'dev-master',
+        'version' => 'dev-master',
+        'type' => 'library',
+        'install_path' => __DIR__ . '/../../',
+        'aliases' => array(),
+        'reference' => '96895c21e00a4a6cdddbe4df644b9823050abd1f',
+        'name' => '__root__',
+        'dev' => true,
+    ),
+    'versions' => array(
+        '__root__' => array(
+            'pretty_version' => 'dev-master',
+            'version' => 'dev-master',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../../',
+            'aliases' => array(),
+            'reference' => '96895c21e00a4a6cdddbe4df644b9823050abd1f',
+            'dev_requirement' => false,
+        ),
+        'aura/sqlquery' => array(
+            'pretty_version' => '2.7.1',
+            'version' => '2.7.1.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../aura/sqlquery',
+            'aliases' => array(),
+            'reference' => 'dd81b57aeb43628180a9c70a4df58d872024d7f2',
+            'dev_requirement' => false,
+        ),
+        'league/plates' => array(
+            'pretty_version' => 'v3.4.0',
+            'version' => '3.4.0.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../league/plates',
+            'aliases' => array(),
+            'reference' => '6d3ee31199b536a4e003b34a356ca20f6f75496a',
+            'dev_requirement' => false,
+        ),
+    ),
+);
