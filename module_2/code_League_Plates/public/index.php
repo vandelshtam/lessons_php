@@ -1,93 +1,66 @@
-<!-- tamtamchick-->
-<!doctype html>
-<html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<?php
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
 
-    <!-- Bootstrap CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-
-    <title>Hello, world!</title>
-  </head>
-<body>
-    <?php
-// Start a Session
 if( !session_id() ) @session_start();
-
-//ini_set('display_errors', 1);
-//error_reporting(E_ALL);
 
 require '../vendor/autoload.php';
 
-if(true){
-    flash()->message('Hot!', 'error');
-}
-echo flash()->display();
-?>
-</body>
+use \DI\ContainerBuilder;
+$containerBuilder = new \DI\ContainerBuilder();
+$container = $containerBuilder->build();
 
 
 
-<?php
-//require '../vendor/autoload.php';
+//nikic/fast-route!!!!!!!!!!!!!
 
-
-//kint!!!!!!
-//d([1,2,3]);
-
-/*
-//League/Plates!!!!!
-$templates = new League\Plates\Engine('../app/views');
-//var_dump($templates); die;
-// Render a template
-//echo $templates->render('homepage', ['name' => 'Jonathan']);
-//echo $templates->render('about', ['title' => 'We work for you']);
-echo $templates->render('contacts', ['phone' => 'Our contact phone number']);
-*/
-
-
-
-
-
-
-
-/*
-//QueryBuilder!!!!
-$routes = [
-    "/php/lessons_php/module_2/code/home" => 'controllers/homepage.php'
-];
-
-$route = $_SERVER['REQUEST_URI'];
-
-var_dump($route);
-
-
-
-if(array_key_exists($route, $routes))
-{
+$dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
+    $r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/home', ['App\controllers\HomeController','index']);
+    //$r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/about={amount:\d+}', ['App\controllers\HomeController','about']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/about', ['App\controllers\HomeController','about']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/register', ['App\controllers\HomeController','register']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/code_League_Plates/public/index.php/register', ['App\controllers\HomeController','register']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/email_verification', ['App\controllers\HomeController','email_verification']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/login', ['App\controllers\HomeController','login']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/code_League_Plates/public/index.php/login', ['App\controllers\HomeController','login']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/logout', ['App\controllers\HomeController','logout']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/mail', ['App\controllers\HomeController','mail']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/insert', ['App\controllers\HomeController','insert']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/paginator', ['App\controllers\HomeController','paginator']);
     
-    echo 'Hello'; 
-    require '../app/'.$routes[$route];exit;
-}
-else{
-    echo 'ERROR';
-}
-exit;
-*/
-/*
-$route = $_SERVER['REQUEST_URI'];
+});
 
-//var_dump($route);
-if($_SERVER['REQUEST_URI'] == '/php/lessons_php/module_2/code/home')
-{
-    //echo 'Hello'; 
-    require '../app/controllers/homepage.php';
+// Fetch method and URI from somewhere
+$httpMethod = $_SERVER['REQUEST_METHOD'];
+$uri = $_SERVER['REQUEST_URI'];
+
+// Strip query string (?foo=bar) and decode URI
+if (false !== $pos = strpos($uri, '?')) {
+    $uri = substr($uri, 0, $pos);
 }
-else{
-    echo 'ERROR';
+$uri = rawurldecode($uri);
+
+$routeInfo = $dispatcher->dispatch($httpMethod, $uri);
+
+switch ($routeInfo[0]) {
+    case FastRoute\Dispatcher::NOT_FOUND:
+        echo '404 Not Found';
+        break;
+    case FastRoute\Dispatcher::METHOD_NOT_ALLOWED:
+        $allowedMethods = $routeInfo[1];
+        echo '405 Method Not Allowed';
+        break;
+    case FastRoute\Dispatcher::FOUND:
+        $handler = $routeInfo[1];
+        $vars = $routeInfo[2];
+        $container->call($routeInfo[1],$routeInfo[2]);
+        break;
 }
 
-exit;
-*/
+
+
+
+
+
+
+
