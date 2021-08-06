@@ -26,23 +26,30 @@ class HomeController{
     
     
 
-    public function __construct(QueryBuilder $qb)
+    public function __construct(QueryBuilder $qb, Engine $engine, PDO $pdo, Auth $auth, QueryFactory $queryFactory)
     {
         $this->qb = $qb;
-        //$this->auth = $auth;
-        $this->templates = new Engine('../app/views');
-        $this->pdo = new PDO("mysql:host=localhost:8889; dbname=app3; charset=utf8;","root","root");
-        $this->auth = new \Delight\Auth\Auth($this->pdo, null, null, false);
-        $this->queryFactory =  new QueryFactory('mysql');
+        $this->templates = $engine;
+        $this->pdo = $pdo;
+        $this->auth = $auth;
+        $this->queryFactory = $queryFactory;
+        d($this->queryFactory); //die;
+        //$this->templates = new Engine('../app/views');
+        //$this->pdo = new PDO("mysql:host=localhost:8889; dbname=app3; charset=utf8;","root","root");
+        //$this->auth = new \Delight\Auth\Auth($this->pdo, null, null, false);
+        //$this->queryFactory =  new QueryFactory('mysql');
         $this->faker = Factory :: create ();
 
         
     }
     public function index(){
-
+        d($this->pdo); //die;
+        
+        
         try {
             if ($this->auth->admin()->doesUserHaveRole(8, \Delight\Auth\Role::ADMIN)) {
-                echo 'The specified user is an administrator';
+                //echo 'The specified user is an administrator';
+                flash()->info("Вы администратор");
             }
             else {
                 echo 'The specified user is not an administrator';
@@ -61,6 +68,7 @@ class HomeController{
             
             flash()->error('User is not signed in yet');
         }
+        
         
         $posts = $this->qb->getAll('posts');
         echo $this->templates->render('homepage', ['name'=>'User', 'posts' => $posts]);

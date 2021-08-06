@@ -6,10 +6,36 @@ if( !session_id() ) @session_start();
 
 require '../vendor/autoload.php';
 
+use Aura\SqlQuery\QueryFactory;
+use Delight\Auth\Auth;
 use \DI\ContainerBuilder;
-$containerBuilder = new \DI\ContainerBuilder();
-$container = $containerBuilder->build();
+use League\Plates\Engine;
 
+$containerBuilder = new \DI\ContainerBuilder();
+
+$containerBuilder->addDefinitions([Engine::class => function(){
+    return new Engine('../app/views');
+},
+PDO::class => function(){
+
+    $driver = 'mysql';
+    $host = 'localhost:8889';
+    $database_name = 'app3';
+    $username = 'root';
+    $password = 'root';
+    return new PDO("$driver:host=$host; dbname=$database_name; charset=utf8;",$username,$password);
+},
+Auth::class => function($container){
+
+    return new Auth($container->get('PDO', 'null', 'null', 'false'));
+},
+QueryFactory::class => function(){
+
+    return new QueryFactory('mysql');
+}
+]);
+
+$container = $containerBuilder->build();
 
 
 //nikic/fast-route!!!!!!!!!!!!!

@@ -1,3 +1,9 @@
+<?php
+if(true){
+    flash()->message('We Hello!', 'success');
+}
+echo flash()->display();
+?>
 <html lang="en">
   <head>
   <!doctype html>
@@ -27,13 +33,7 @@
       </nav>
     
   
-    <?php
 
-if(true){
-    flash()->message('We Hello!', 'success');
-}
-echo flash()->display();
-?>
 <?=$this->section('content')?>
 </body>
 </html>
