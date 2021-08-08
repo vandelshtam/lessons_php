@@ -44,6 +44,7 @@ class QueryBuilder{
         $update
             ->table($table)                  
             ->cols($data)
+            
             ->where('id = :id')
             ->bindValue('id', $id);
         
