@@ -1,46 +1,39 @@
-Установка:
+1.Установка проекта:
 Клонировать репозиторий
 composer install
-Тут можно:
+2. В проекте  возможно:
 Регистрироваться
 Делать login
-Редактировать свои данные
-Редактировать свои ссылки на соцсети (раньше это было возможно только при создании пользователя от имени администратора)
-Просматривать профили других пользователей (клик по аватарке)
+Редактировать свои данные профиля
+Просматривать профили других пользователей (клик по  значку "шестеренка", откроется дополнительное меню)
 Менять статус
-Менять аватарку
+Менять аватар
 Менять Email и пароль (указать текущий и новый пароль)
-Удалять своего пользователя
+Удалять пользователя
 От имени администратора можно:
-Все то же, что и от имени рядового пользователя
+Все те же возможности как у пользователей, плюс дополнительные возможности
 Редактировать данные других пользователей
 Удалять профили других пользователей
-Дополнительно:
-Есть пагинация (по 6 пользователей на страницу)
-Настройки подключения к базе данных в файле public/index.php на строке 23
-  	PDO::class => function() {
-        return new PDO('mysql:host=localhost;dbname=examdb;charset=utf8', 'root', 'root');
-  	},
-Прилагается дамп базы данных с пользователями
-Email администратора johndoe@gmail.com
-На случай пустой базы данных оставлена возможность сделать текущего залогиненного пользователя администратором. Для этого нужно перейти по адресу "/becameadmin".
-Можно отключить эту возможность, удалив строку 56 из public/index.php
-	$r->addRoute('GET', '/becameadmin', ['App\Controller\AuthorizationController', 'becameAdmin']);
-Аккаунты пользователей из базы:
+Добавлять пользователей
+Назначать и отбирать роли пользователей (админ, разработчик и т д)
+По выбору пользователя можно просматиривать пользователей в режиме "Все пользователи" и по "3 пользователя" (пагинация)
+Прилагается дамп базы данных с пользователями  в файле 
+Email администратора otto@mail.ru, vlad@mail.ru, ivan@gmail.com
+Email разработчика sylvestsr@gmail.com
 
-johndoe@gmail.com
-dicaprio@gmail.com
-ivanivanov@mail.com
-petrsamoilov@gmail.com
-kirillzacharov@gmail.com
-elizavetam@gmail.com
-maximsemenov@gmail.com
-sergeyrudakov@gmail.com
-vladislavvolkov@gmail.com
-knyazev@mail.com
-kiraastahova@mail.com
-ivankuznecov@gmail.com
-vladimirsmirnov@gmail.com
-novikovap@gmail.com
-michaila@gmail.com
-Ко всем пользователям пароль: 12345
+Аккаунты тестовых  пользователей из базы:
+
+otto@mail.ru
+vlad@mail.ru
+vlada@gmail.com
+mark@gmail.com
+vandel@mail.com
+branco@gmail.com
+filipo@gmail.com
+michael@gmail.com
+slava@gmail.com
+john@gmail.com
+sylvester@gmail.com
+ivan@gmail.com
+
+Ко всем пользователям пароль: 123aaa
