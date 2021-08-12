@@ -1,4 +1,4 @@
-<?php $this->layout('layout', ['title' => 'Page profile']); ?>
+<?php $this->layout('layout', ['title' => 'Delete profile']); ?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,7 +50,13 @@
                         </div>
                     </div>
                </div>
+               
             </div>
+            <form action="" method="POST" enctype="multipart/form-data" md-0>
+               <div class="col-md-12 mt-3 d-flex flex-row-reverse">
+                        <button class="btn btn-warning" name="delete_user">Удалить пользователя и его профиль</button>                    
+                </div>
+               </form>
         </main>
     </body>
 

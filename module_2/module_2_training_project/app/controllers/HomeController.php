@@ -6,217 +6,111 @@ use PDO;
 use Delight\Auth\Auth;
 use \DI\ContainerBuilder;
 use League\Plates\Engine;
-use Aura\SqlQuery\QueryFactory;
+use JasonGrimes\Paginator;
+use App\model\MediaBuilder;
+use App\model\QueryBuilder;
 use Tamtamchik\SimpleFlash\Flash;
-
-
 
 class HomeController{
 
     private $templates;
-    private $queryFactory;
-    private $pdo;
     private $auth;
     public $flash;
-    public $dispatcher;
-    
+    private $qb;
+    private $mb;
     
     
 
-    public function __construct(Engine $engine, QueryFactory $queryFactory, PDO $pdo, Auth $auth, Flash $flash)
+    public function __construct(
+        Engine $engine, 
+        Auth $auth, 
+        Flash $flash, 
+        QueryBuilder $qb,
+        MediaBuilder $mb )
     {
         $this->auth = $auth;
         $this->templates = $engine;
-        $this->queryFactory = $queryFactory;
-        $this->pdo = $pdo;
         $this->flash = $flash;
-        //$this->auth = new \Delight\Auth\Auth($this->pdo, null, null, false);
-        
+        $this->qb = $qb;
+        $this->mb = $mb;
     }
     public function home(){
+        $users=$this->qb->getAll('users'); 
+        echo $this->templates->render('homepage', ['name'=>'All users', 'users' => $users]);   
+    }
+
+    public function about(){ 
+        echo $this->templates->render('about', ['name'=>'About']);   
+    }
+
+    public function page_profile($vars){
         
+        $id = $vars['id'];
+        $user=$this->qb->getUser($id,'users');
+        echo $this->templates->render('page_profile', ['name'=>'Page profile', 'user' => $user, 'ses'=>\Delight\Cookie\Session::set('username', $this->auth->getUsername())]);   
+    }
+    
+    public function avatar($vars){
         
-        $select=$this->queryFactory->newSelect();
-            $select
-            ->cols(['*'])
-            ->from('users');
-            $sth = $this->pdo->prepare($select->getStatement());
-            $sth->execute($select->getBindValues());           
-            $users=$sth->fetchAll(PDO::FETCH_ASSOC);
+        $id = $vars['id'];
+        $direct='/Applications/MAMP/htdocs/php/lessons_php/module_2/module_2_training_project/app/views/img/demo/avatars/';
+        
+        if(isset($_POST['send_update'])){
+            $image_name=$_FILES['avatar']['name'];
+            $image_name_tmp=$_FILES['avatar']['tmp_name'];
+            $new_avatar='/php/lessons_php/module_2/module_2_training_project/app/views/img/demo/avatars/'.$image_name;
+            $data = ['avatar' => $new_avatar];
+
+            $this->mb->deleteFileAvatar($id);
+            $this->mb->loadingFileAvatar($image_name_tmp,$direct,$image_name);
+            $this->mb->updateAvatar($data,$id,'users');
             
+        }
+        elseif(isset($_POST['send_delete'])){
+            $this->mb->deleteFileAvatar($id);
+            $data = ['avatar' => '/php/lessons_php/module_2/module_2_training_project/app/views/img/demo/avatars/plane_demo.png'];
+            $this->mb->updateAvatar($data,$id,'users');
             
-        echo $this->templates->render('homepage', ['name'=>'All users', 'users' => $users, 's'=>$s]);
-        
+        }
+            $avatar=$this->mb->getAvatar($id,'users');
+            $current_avatar=$this->mb->hisAvatar($id,'users');
+            echo $this->templates->render('media', ['name'=>'media', 'avatar' => $avatar, 'current_avatar' => $current_avatar]);
     }
 
-    public function register(){
+    public function paginator(){
+   
+        $totalUsers = $this->qb->rowsCount('users');
+        $users = $this->qb->get_3_users('users');
         
-        echo $this->templates->render('register', ['name' => 'Register user!']);
+        $itemsPerPage = 3;
+        $currentPage = $_GET['page'] ?? 1;
+        $urlPattern = '?page=(:num)';
+        $paginator = new Paginator($totalUsers, $itemsPerPage, $currentPage, $urlPattern);
         
-        if(isset($_POST)){
-
-        try {
-            $userId = $this->auth->register($_POST['email'],$_POST['password'],$_POST['username'], function ($selector, $token) {
-            echo 'Send ' . $selector . ' and ' . $token . ' to the user (e.g. via email)';
-            });
-            //echo 'We have signed up a new user with the ID ' . $userId;
-            flash()->info('We have signed up a new user with the ID ' . $userId);
-        }
-        catch (\Delight\Auth\InvalidEmailException $e) {
-            flash()->error('Invalid email address');
-            die();
-        }
-        catch (\Delight\Auth\InvalidPasswordException $e) {
-            flash()->error('Invalid password');
-            die();
-        }
-        catch (\Delight\Auth\UserAlreadyExistsException $e) {
-            flash()->error('User already exists');
-            die();
-        }
-        catch (\Delight\Auth\TooManyRequestsException $e) {
-            flash()->error('Too many requests');
-            die();
-        }
-        }    
-    }
-
-    public function email_verification(){
-       
-        echo $this->templates->render('email_varification', ['name' => 'User email verification!']);
-
-        if(isset($_POST)){
-            try {
-            $this->auth->confirmEmail($_POST['code'], $_POST['tokin']);
-            flash()->error('Email address has been verified');
-            //echo 'Email address has been verified';
-        }
-        catch (\Delight\Auth\InvalidSelectorTokenPairException $e) {
-            flash()->error('Invalid token');
-            die();
-        }
-        catch (\Delight\Auth\TokenExpiredException $e) {
-            flash()->error('Token expired');
-
-            die();
-        }
-        catch (\Delight\Auth\UserAlreadyExistsException $e) {
-            flash()->error('Email address already exists');
-
-            die();
-        }
-        catch (\Delight\Auth\TooManyRequestsException $e) {
-            flash()->error('Too many requests');
-
-            die();
-        }
-        }    
-    }
-
-     public function login(){
-        echo $this->templates->render('login', ['name' => 'User login!']);   
-        
-        
-        if ( $this->auth -> isLoggedIn ()) {
-            echo  'Пользователь вошел в систему' ; 
-       } else {
-            echo 'Пользователь еще не вошел в систему' ; 
-       }
-        
-
-        
-        //echo $this->templates->render('login', ['name' => 'User login!']);   
-    }
-
-    public function page_profile(){
-        
-        
-
-        $select=$this->queryFactory->newSelect();
-            $select
-            ->cols(['*'])
-            ->from('users')
-            ->where('id = :id')
-            ->bindValue('id', 9);
-            $sth = $this->pdo->prepare($select->getStatement());
-            $sth->execute($select->getBindValues());           
-            $users=$sth->fetch(PDO::FETCH_ASSOC);
-            
- 
-        echo $this->templates->render('page_profile', ['name'=>'Page profile', 'users' => $users]);
-        
-    }
-
-    public function edit(){
-        $id = \Delight\Cookie\Session::get($id_user);
-        d($id);
-        
-        if(isset($_POST['username']) OR isset($_POST['city']) OR isset($_POST['phone']) OR isset($_POST['occupation'])){
-            $username= $_POST['username'];
-            $city = $_POST['city'];
-            $phone = $_POST['phone'];
-            $occupation = $_POST['occupation'];
-        
-            $update = $this->queryFactory->newUpdate();
-            $update->table('users')           
-            ->cols([                    
-                'username' => $username,
-                'city' => $city,
-                'phone' => $phone,
-                'occupation' => $occupation
-            ])
-            ->where('id = :id')
-            ->bindValue('id', $id);
-        
-            $sth = $this->pdo->prepare($update->getStatement());   
-            $sth->execute($update->getBindValues()); 
-            flash()->success('Вы успешно обновили профиль');
-        }
-        
-        echo $this->templates->render('edit', ['name'=>'Edit profile']);
+        echo $this->templates->render('paginator', 
+        ['name'=>'User Paginator', 'totalUsers'=>$totalUsers, 
+         'itemsPerPage'=>$itemsPerPage,
+         'users' => $users,
+         'currentPage'=>$currentPage,
+         'urlPattern'=>$urlPattern,
+         'paginator' => $paginator]);
     }
 
     public function status($vars){
-        $id = \Delight\Cookie\Session::get($id_user);
-        d($vars['id']);
-        d($id);
-        d($routeInfo[2]['id']);
-        
+        $id = $vars['id'];
         $list_statuses=[0 => 'online', 1 => 'walked away', 2 => 'do not disturb'];
         $list_statuses_set=[ 'online' => 0,  'walked away' => 1,  'do not disturb' => 2];
-               
         $status_key = $list_statuses_set[$_POST['status']];
+        $data = ['status' => $status_key];
                       
         if(isset($_POST['status'])){
                 
-            $update = $this->queryFactory->newUpdate();
-            $update->table('users')           
-                ->cols([                    
-                    'status' => $status_key
-                        
-                ])
-                ->where('id = :id')
-                ->bindValue('id', 9);    
-            $sth = $this->pdo->prepare($update->getStatement());   
-            $sth->execute($update->getBindValues()); 
+            $this->qb->update($data,$id,'users');
             flash()->success('Вы успешно обновили свой статус');    
         }
-                                   
-        $select=$this->queryFactory->newSelect();
-            $select
-            ->cols(['*'])
-            ->from('users')
-            ->where('id = :id')
-            ->bindValue('id', $id);
-            $sth = $this->pdo->prepare($select->getStatement());
-            $sth->execute($select->getBindValues());           
-            $statuses=$sth->fetch(PDO::FETCH_ASSOC);
-            d($statuses['status']);
-               
+        $statuses=$this->qb->getUser($id,'users');       
         echo $this->templates->render('status', ['name'=>'status', 'statuses'=> $statuses, 'list_statuses' => $list_statuses]);
-
+    } 
     }
 
     
-    
-}

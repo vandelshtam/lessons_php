@@ -1,5 +1,6 @@
 <?php
 session_start();
+
 ini_set('display_errors', 1);
 error_reporting(E_ALL);
 
@@ -12,6 +13,7 @@ use Delight\Auth\Auth;
 use DI\ContainerBuilder;
 use League\Plates\Engine;
 use \Tamtamchik\SimpleFlash\Flash; 
+
 
 $containerBuilder = new \DI\ContainerBuilder();
 
@@ -40,19 +42,31 @@ $container = $containerBuilder->build();
 $dispatcher = FastRoute\simpleDispatcher(function(FastRoute\RouteCollector $r) {
     $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/home', ['App\controllers\HomeController','home']);
     $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/page_profile/{id:\d+}', ['App\controllers\HomeController','page_profile']);
-    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/edit_user/{id:\d+}', ['App\controllers\HomeController','edit']);
-    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/edit_user/{id:\d+}', ['App\controllers\HomeController','edit']);
-    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/register', ['App\controllers\HomeController','register']);
-    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/register', ['App\controllers\HomeController','register']);
-    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/verification', ['App\controllers\HomeController','email_verification']);
-    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/verification', ['App\controllers\HomeController','email_verification']);
-    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/login', ['App\controllers\HomeController','login']);
-    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/login', ['App\controllers\HomeController','login']);
-    //$r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/logout', ['App\controllers\HomeController','logout']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/edit_user/{id:\d+}', ['App\controllers\UserController','edit']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/edit_user/{id:\d+}', ['App\controllers\UserController','edit']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/register', ['App\controllers\UserController','register']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/register', ['App\controllers\UserController','register']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/verification', ['App\controllers\UserController','email_verification']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/verification', ['App\controllers\UserController','email_verification']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/login', ['App\controllers\UserController','login']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/login', ['App\controllers\UserController','login']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/logout', ['App\controllers\UserController','logout']);
     $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/status/{id:\d+}', ['App\controllers\HomeController','status']);
     $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/status/{id:\d+}', ['App\controllers\HomeController','status']);
-    //$r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/insert', ['App\controllers\HomeController','insert']);
-    //$r->addRoute('GET', '/php/lessons_php/module_2/code_League_Plates/public/index.php/paginator', ['App\controllers\HomeController','paginator']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/load_avatar/{id:\d+}', ['App\controllers\HomeController','avatar']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/load_avatar/{id:\d+}', ['App\controllers\HomeController','avatar']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/addUser', ['App\controllers\UserController','addUser']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/addUser', ['App\controllers\UserController','addUser']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/about', ['App\controllers\HomeController','about']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/roles/{id:\d+}', ['App\controllers\UserController','roles']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/roles/{id:\d+}', ['App\controllers\UserController','roles']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/delete/{id:\d+}', ['App\controllers\UserController','delete']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/delete/{id:\d+}', ['App\controllers\UserController','delete']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/security_admin/{id:\d+}', ['App\controllers\UserController','security_admin']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/security_admin/{id:\d+}', ['App\controllers\UserController','security_admin']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/paginator', ['App\controllers\HomeController','paginator']);
+    $r->addRoute('GET', '/php/lessons_php/module_2/module_2_training_project/public/index.php/confirm_password/{id:\d+}', ['App\controllers\UserController','confirm_password']);
+    $r->addRoute('POST', '/php/lessons_php/module_2/module_2_training_project/public/index.php/confirm_password/{id:\d+}', ['App\controllers\UserController','confirm_password']);
     
 });
 
@@ -76,12 +90,8 @@ switch ($routeInfo[0]) {
         break;
     case FastRoute\Dispatcher::FOUND:
         $handler = $routeInfo[1];
-        $vars = $routeInfo[2]['id'];
-       
-       
-       
-        $container->call($routeInfo[1],$routeInfo[2]);
-
+        $vars = $routeInfo[2];
+        $container->call($handler,[$vars]);
         break;
 }
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8">
     <title>
-        Войти
+        Secutity admin
     </title>
     <meta name="description" content="Login">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,20 +38,17 @@
             
             <form action="" method="POST">
                 <div class="form-group">
-                    <label class="form-label" for="username">Email</label>
-                    <input type="email" id="username" class="form-control" placeholder="Эл. адрес" value="" name="email">
+                    <label class="form-label" for="username">Username</label>
+                    <input type="username" id="username" class="form-control" placeholder="username" value="" name="username">
                 </div>
                 <div class="form-group">
                     <label class="form-label" for="password">Пароль</label>
-                    <input type="password" id="password" class="form-control" placeholder="" name="password">
+                    <input type="password" id="password" class="form-control" placeholder="" name="newPassword">
                 </div>
                 <div class="form-group text-left">
-                    <div class="custom-control custom-checkbox">
-                        <input type="checkbox" class="custom-control-input" id="rememberme" name="rememberme">
-                        <label class="custom-control-label" for="rememberme">Запомнить меня</label>
-                    </div>
+                    
                 </div>
-                <button type="submit" class="btn btn-default float-right" name="login">Войти</button>
+                <button type="submit" class="btn btn-default float-right" name="security_name">Подтвердить смену пароля</button>
             </form>
         </div>
         <div class="blankpage-footer text-center">

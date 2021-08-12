@@ -28,8 +28,8 @@ $auth = new \Delight\Auth\Auth($pdo);
                     Список пользователей 
                     <ul class="navbar-nav ml-auto mt-3">   
                     <li class="nav-item" class="row">
+                        <a class="nav-link" href="/php/lessons_php/module_2/module_2_training_project/public/index.php/home">Показать всех пользователей</a>
                         
-                        <a class="nav-link" href="/php/lessons_php/module_2/module_2_training_project/public/index.php/paginator">Вывести по три пользователя</a>
                     </li> 
                 </ul>   
                 </h1>
@@ -80,9 +80,7 @@ $auth = new \Delight\Auth\Auth($pdo);
                                                 <i class="fa fa-window-close"></i>
                                                 Удалить
                                                 </a>   
-                                                </div>
-                                                  
-                                            
+                                                </div>        
                                     <?php endif;?> 
                                     </div>
                                 <button class="js-expand-btn btn btn-sm btn-default d-none" data-toggle="collapse" data-target="#c_1 > .card-body + .card-body" aria-expanded="false">
@@ -92,7 +90,6 @@ $auth = new \Delight\Auth\Auth($pdo);
                                     <span class="text-truncate text-truncate-xl"><?=$user['occupation'];?></span>    
                             </div>
                         </div>
-                    
                         <?php if($auth->isLoggedIn()):?>   
                         <div class="card-body p-0 collapse show">
                          
@@ -134,11 +131,37 @@ $auth = new \Delight\Auth\Auth($pdo);
                     </div>
                 </div>
             </div>
-        <?php endforeach;?>
 
-         
+<?php endforeach;?>
+
+<div class="row" id="js-contacts">
+    <div class="col-xl-4">
+        <div id="c_1" class="card border shadow-0 mb-g shadow-sm-hover" data-filter-tags="oliver kopyov">
+            <div class="card-body border-faded border-top-0 border-left-0 border-right-0 rounded-top">
+                            
+            
+            <ul class="pagination">
+            <?php if ($paginator->getPrevUrl()): ?>
+                <li class="page-item"><a class="page-link" href="<?php echo $paginator->getPrevUrl(); ?>">Previous</a></li>
+                <?php endif; ?>
+
+                <?php foreach ($paginator->getPages() as $page): ?>
+                    <?php if ($page['url']): ?>
+                    <li class="page-item" <?php echo $page['isCurrent'] ? 'class="active"' : ''; ?>><a class="page-link" href="<?php echo $page['url']; ?>"><?php echo $page['num']; ?></a></li>
+                    <?php else: ?>
+                <li class="page-item"><a class="page-link" href="#" class="disabled"><?php echo $page['num']; ?></a></li>
+                <?php endif; ?>
+                <?php endforeach; ?>
+                
+                
+                <?php if ($paginator->getNextUrl()): ?>
+                <li class="page-item"><a class="page-link" href="<?php echo $paginator->getNextUrl(); ?>">Next</a></li>
+                <?php endif; ?>
+            </ul>
 
 
-
-
+            </div>
+        </div>
+    </div>
+</div>
 

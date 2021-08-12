@@ -5,7 +5,7 @@
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
-        'reference' => 'ed691a935aa0dc78b89238830826aa814014d2e6',
+        'reference' => 'a100148b25d74e8d394f00384a7b8cc9018b0ac8',
         'name' => '__root__',
         'dev' => true,
     ),
@@ -16,7 +16,7 @@
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
-            'reference' => 'ed691a935aa0dc78b89238830826aa814014d2e6',
+            'reference' => 'a100148b25d74e8d394f00384a7b8cc9018b0ac8',
             'dev_requirement' => false,
         ),
         'aura/sqlquery' => array(
@@ -71,6 +71,15 @@
             'install_path' => __DIR__ . '/../delight-im/http',
             'aliases' => array(),
             'reference' => '0a19a72a7eac8b1301aa972fb20cff494ac43e09',
+            'dev_requirement' => false,
+        ),
+        'jasongrimes/paginator' => array(
+            'pretty_version' => '1.0.3',
+            'version' => '1.0.3.0',
+            'type' => 'library',
+            'install_path' => __DIR__ . '/../jasongrimes/paginator',
+            'aliases' => array(),
+            'reference' => '3411e3cd0c6479a0b514f26e4358f0273552f221',
             'dev_requirement' => false,
         ),
         'kint-php/kint' => array(
